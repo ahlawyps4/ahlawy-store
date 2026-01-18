@@ -5,39 +5,36 @@ let cart = JSON.parse(localStorage.getItem('ahlawy_cart')) || [];
 
 // 1. دالة تحميل الألعاب (معدلة لتعمل على GitHub Pages)
 async function loadGames() {
-    // تحديد مسار ملف JSON بناءً على مكان الصفحة
-    const jsonPath = window.location.pathname.includes('/PS4/') || window.location.pathname.includes('/PS5/') 
-                     ? '../games.json' 
-                     : './games.json';
+    // هذا التعديل يضمن أن السكربت سيعرف المسار سواء كان في المجلد الرئيسي أو الفرعي على GitHub
+    const isSubFolder = window.location.pathname.includes('/PS4/') || window.location.pathname.includes('/PS5/');
+    const jsonPath = isSubFolder ? '../games.json' : './games.json';
     
     try {
         const response = await fetch(jsonPath); 
-        if (!response.ok) throw new Error("File not found");
+        if (!response.ok) throw new Error("File not found at: " + jsonPath);
         
         const games = await response.json();
         const container = document.getElementById('games-container');
-        // التأكد من قراءة المنصة بشكل صحيح من وسم body
         const currentPlatform = document.body.getAttribute('data-platform'); 
 
         if (!container) return;
         container.innerHTML = '';
         
-        // فلترة الألعاب بناءً على المنصة (PS4 أو PS5)
         const filteredGames = games.filter(game => game.platform === currentPlatform);
 
         if (filteredGames.length === 0) {
-            container.innerHTML = "<p style='text-align:center;'>لا توجد ألعاب لهذه المنصة حالياً</p>";
+            container.innerHTML = "<p style='text-align:center;'>لا توجد ألعاب حالياً</p>";
             return;
         }
 
         filteredGames.forEach(game => {
-            // ملاحظة: هنا نستخدم مسار الصورة كما هو في JSON مع إضافة ../ للخروج من المجلد
-            const imagePath = `../${game.img}`;
+            // إضافة ../ للصور فقط إذا كنا داخل مجلد فرعي
+            const imagePath = isSubFolder ? `../${game.img}` : `./${game.img}`;
             
             container.innerHTML += `
                 <div class="game-item">
                     <div class="game-media">
-                        <img src="${imagePath}" alt="${game.title}" onerror="this.src='../logo.png'">
+                        <img src="${imagePath}" alt="${game.title}" onerror="this.src='${isSubFolder ? '../logo.png' : './logo.png'}'">
                     </div>
                     <div class="game-content">
                         <h3>${game.title}</h3>
@@ -46,7 +43,7 @@ async function loadGames() {
                 </div>`;
         });
     } catch (error) {
-        console.error("Error loading games:", error);
+        console.error("حدث خطأ في التحميل:", error);
     }
 }
 // 2. وظائف السلة واللوحة الجانبية
