@@ -6,14 +6,13 @@
   <title>AHLAWY STORE - الرئيسية</title>
   <link rel="stylesheet" href="style.css" />
   
-  <!-- رابط الـ manifest -->
   <link rel="manifest" href="manifest.json">
 
-  <!-- إضافة الـ Service Worker -->
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/service-worker.js').then(registration => {
+        // قمت بإزالة السلاش (/) قبل اسم الملف لضمان عمله في GitHub Pages وفي الكاش
+        navigator.serviceWorker.register('service-worker.js').then(registration => {
           console.log('ServiceWorker registered: ', registration);
         }).catch(error => {
           console.log('ServiceWorker registration failed: ', error);
@@ -40,13 +39,10 @@
     </section>
 
     <section class="platforms">
-
-      <!-- PS4 -->
       <a class="platform-card ps4" href="PS4/index.html">
         <div class="platform-media right">
           <img src="ps4.png" alt="PS4">
         </div>
-
         <div class="platform-content">
           <span class="chip">PS4</span>
           <h3>Games PS4</h3>
@@ -55,12 +51,10 @@
         </div>
       </a>
 
-      <!-- PS5 -->
       <a class="platform-card ps5" href="PS5/index.html">
         <div class="platform-media left">
           <img src="ps5.png" alt="PS5">
         </div>
-
         <div class="platform-content">
           <span class="chip">PS5</span>
           <h3>Games PS5</h3>
@@ -68,7 +62,6 @@
           <div class="btn">دخول القسم</div>
         </div>
       </a>
-
     </section>
   </main>
 
