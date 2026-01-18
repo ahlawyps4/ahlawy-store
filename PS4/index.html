@@ -17,23 +17,30 @@
         </div>
         <div class="cart-trigger" onclick="toggleCart()">
             <span>السلة</span>
-            <span id="cart-count">0</span>
+            (<span id="cart-count">0</span>)
         </div>
     </header>
 
     <main>
-        <div id="games-container" class="games">
-            </div>
+        <div id="games-container" class="games"></div>
     </main>
 
     <div id="cart-section" class="cart-section">
         <button class="close-cart" onclick="toggleCart()">×</button>
-        <h2>طلباتك</h2>
+        <h2 style="color: var(--gold); border-bottom: 1px solid #333; padding-bottom: 10px;">طلباتك</h2>
+        
         <ul id="cart-list"></ul>
-        <button id="whatsapp-order" onclick="sendWhatsApp()">إرسال الطلب عبر واتساب</button>
-        <button id="clear-cart" onclick="clearCart()">مسح السلة</button>
+
+        <div id="qr-container" style="display:none; background:white; padding:15px; margin: 15px 0; border-radius:12px; text-align:center;">
+            <p style="color:black; font-size:12px; font-weight:bold; margin-bottom:10px;">امسح الكود لإتمام الطلب</p>
+            <div id="qrcode" style="display: flex; justify-content: center;"></div>
+        </div>
+
+        <button id="whatsapp-order" onclick="sendWhatsApp()" style="width:100%; background:#25d366; color:white; border:none; padding:12px; border-radius:8px; font-weight:bold; margin-top:10px; cursor:pointer;">إرسال عبر واتساب</button>
+        <button id="clear-cart" onclick="clearCart()" style="width:100%; background:#444; color:white; border:none; padding:10px; border-radius:8px; margin-top:8px; cursor:pointer;">مسح السلة</button>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="../script.js"></script>
 </body>
 </html>
