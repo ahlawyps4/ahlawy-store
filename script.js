@@ -5,32 +5,39 @@ let cart = JSON.parse(localStorage.getItem('ahlawy_cart')) || [];
 
 // 1. دالة تحميل الألعاب (معدلة لتعمل على GitHub Pages)
 async function loadGames() {
-    // تحديد المسار الصحيح سواء كنت في الصفحة الرئيسية أو داخل مجلد PS4
-    const jsonPath = window.location.pathname.includes('/PS4/') ? '../games.json' : './games.json';
+    // تحديد مسار ملف JSON بناءً على مكان الصفحة
+    const jsonPath = window.location.pathname.includes('/PS4/') || window.location.pathname.includes('/PS5/') 
+                     ? '../games.json' 
+                     : './games.json';
     
     try {
         const response = await fetch(jsonPath); 
-        if (!response.ok) throw new Error("لم يتم العثور على ملف الألعاب");
+        if (!response.ok) throw new Error("File not found");
         
         const games = await response.json();
         const container = document.getElementById('games-container');
-        const currentPlatform = document.body.getAttribute('data-platform');
+        // التأكد من قراءة المنصة بشكل صحيح من وسم body
+        const currentPlatform = document.body.getAttribute('data-platform'); 
 
         if (!container) return;
         container.innerHTML = '';
         
+        // فلترة الألعاب بناءً على المنصة (PS4 أو PS5)
         const filteredGames = games.filter(game => game.platform === currentPlatform);
 
         if (filteredGames.length === 0) {
-            container.innerHTML = "<p style='text-align:center;'>لا توجد ألعاب متوفرة حالياً</p>";
+            container.innerHTML = "<p style='text-align:center;'>لا توجد ألعاب لهذه المنصة حالياً</p>";
             return;
         }
 
         filteredGames.forEach(game => {
+            // ملاحظة: هنا نستخدم مسار الصورة كما هو في JSON مع إضافة ../ للخروج من المجلد
+            const imagePath = `../${game.img}`;
+            
             container.innerHTML += `
                 <div class="game-item">
                     <div class="game-media">
-                        <img src="../${game.img}" alt="${game.title}" onerror="this.src='../logo.png'">
+                        <img src="${imagePath}" alt="${game.title}" onerror="this.src='../logo.png'">
                     </div>
                     <div class="game-content">
                         <h3>${game.title}</h3>
@@ -39,8 +46,7 @@ async function loadGames() {
                 </div>`;
         });
     } catch (error) {
-        console.error("خطأ:", error);
-        document.getElementById('games-container').innerHTML = "<p>خطأ في تحميل الألعاب، تأكد من ملف games.json</p>";
+        console.error("Error loading games:", error);
     }
 }
 // 2. وظائف السلة واللوحة الجانبية
