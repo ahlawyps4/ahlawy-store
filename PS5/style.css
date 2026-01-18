@@ -39,8 +39,8 @@
   color:inherit;
 }
 .store-page .brand img{
-  width:52px;
-  height:52px;
+  width:60px;
+  height:60px;
   object-fit:contain;
   border-radius:14px;
   background:rgba(255,255,255,.06);
@@ -58,9 +58,9 @@
 /* البحث */
 .store-page .search-bar input{
   width:100%;
-  padding:10px 12px;
-  border-radius:14px;
-  border:1px solid rgba(255,255,255,.12);
+  padding:10px 5px;
+  border-radius:10px;
+  border:2px solid rgba(255,255,255,.12);
   background:rgba(255,255,255,.06);
   color:#fff;
   outline:none;
@@ -125,17 +125,25 @@
   opacity:.85;
 }
 
-/* شبكة الألعاب (متوازنة لأي عدد) */
+/* شبكة الألعاب (6 ألعاب فقط) */
 .store-page .games{
-  max-width:1200px;
-  margin:0 auto;
+  max-width: 1200px;
+  margin: 0 auto;
   padding: 18px 14px 30px;
-
-  display:grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 18px;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);  /* 6 ألعاب في كل صف */
+  gap: 20px;
   align-items: stretch;
 }
+
+@media (max-width: 860px){
+  .store-page .games{ grid-template-columns: repeat(2, 1fr); } /* 2 ألعاب في كل صف */
+}
+
+@media (max-width: 520px){
+  .store-page .games{ grid-template-columns: 1fr; } /* لعبة واحدة في كل صف */
+}
+
 
 /* كارت اللعبة */
 .store-page .game-item{
