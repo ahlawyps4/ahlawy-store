@@ -105,21 +105,25 @@ body {
   background: #222; /* لضمان عدم ظهور مساحة بيضاء أثناء التحميل */
 }
 
-/* 5. سلة المشتريات والـ QR */
+//* تنسيق السلة الجانبية الأساسي */
 .cart-section {
-  position: fixed;
-  top: 0;
-  left: -100%;
-  width: 320px;
-  height: 100%;
-  background: #0d0d0d;
-  z-index: 2000;
-  transition: 0.5s ease;
-  padding: 25px;
-  border-right: 3px solid var(--main-red);
+    position: fixed !important;
+    top: 0 !important;
+    left: -320px !important; /* تبدأ مخفية تماماً جهة اليسار */
+    width: 300px !important;
+    height: 100vh !important;
+    background: #111 !important;
+    z-index: 9999 !important;
+    transition: 0.4s ease-in-out !important; /* سرعة الانزلاق */
+    padding: 20px !important;
+    border-right: 2px solid #cc0000 !important;
+    display: block !important;
 }
 
-.cart-section.open { left: 0; }
+/* الكلاس الذي يتم تفعيله بالجافاسكربت */
+.cart-section.open {
+    left: 0 !important; /* تحريك السلة لتظهر داخل الشاشة */
+}
 
 #qr-code {
   background: white;
