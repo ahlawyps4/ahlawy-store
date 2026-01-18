@@ -1,8 +1,8 @@
-/* ============ AHLAWY STORE - QR & CART SYSTEM v1.02 ============ */
+/* ============ AHLAWY STORE - FINAL SYSTEM v1.02 ============ */
 
 let cart = JSON.parse(localStorage.getItem('ahlawy_cart')) || [];
 
-// 1. دالة تحميل الألعاب
+// 1. تحميل الألعاب وعرضها
 async function loadGames() {
     try {
         const response = await fetch('../games.json'); 
@@ -32,7 +32,6 @@ async function loadGames() {
 
         updateCartCount();
         updateCartList();
-
     } catch (error) {
         console.error("خطأ:", error);
     }
@@ -52,9 +51,11 @@ function addToCart(title) {
     updateCartCount();
     updateCartList();
     
-    // فتح السلة تلقائياً
+    // فتح السلة تلقائياً عند الإضافة
     const cartSection = document.getElementById('cart-section');
-    if (cartSection) cartSection.classList.add('open');
+    if (cartSection && !cartSection.classList.contains('open')) {
+        cartSection.classList.add('open');
+    }
 }
 
 function updateCartCount() {
@@ -64,10 +65,12 @@ function updateCartCount() {
 
 function updateCartList() {
     const listElement = document.getElementById('cart-list');
+    const qrContainer = document.getElementById('qr-container');
+    
     if (listElement) {
         if (cart.length === 0) {
             listElement.innerHTML = '<li style="color:#888; text-align:center; padding:10px;">السلة فارغة</li>';
-            document.getElementById('qr-container').style.display = 'none'; // إخفاء الـ QR لو السلة فضيت
+            if (qrContainer) qrContainer.style.display = 'none';
         } else {
             listElement.innerHTML = cart.map((item, index) => `
                 <li style="display:flex; justify-content:space-between; align-items:center; background:#222; padding:8px; margin-bottom:8px; border-radius:5px; border:1px solid #333;">
@@ -75,7 +78,8 @@ function updateCartList() {
                     <button onclick="removeFromCart(${index})" style="background:#ff4444; border:none; color:white; padding:2px 6px; border-radius:3px; cursor:pointer;">×</button>
                 </li>
             `).join('');
-            // توليد الـ QR تلقائياً عند تحديث القائمة
+            
+            // توليد الـ QR Code تلقائياً
             generateQR();
         }
     }
@@ -90,7 +94,8 @@ function generateQR() {
         qrDiv.innerHTML = ""; // مسح القديم
         qrContainer.style.display = 'block';
         
-        const orderText = "طلب من أهلاوي ستور:\n" + cart.map((t, i) => `${i+1}- ${t}`).join("\n");
+        // نص الطلبية الذي سيظهر عند مسح الكود
+        const orderText = "طلب جديد من أهلاوي ستور:\n" + cart.map((t, i) => `${i+1}- ${t}`).join("\n");
         
         new QRCode(qrDiv, {
             text: orderText,
