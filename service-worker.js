@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ahlawy-store-cache-v1';
+const CACHE_NAME = 'ahlawy-store-cache-v2';
 const urlsToCache = [
   './', 
   './index.html',
