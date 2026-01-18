@@ -2,7 +2,7 @@
 
 let cart = JSON.parse(localStorage.getItem('ahlawy_cart')) || [];
 
-// 1. تحميل الألعاب وعرضها
+// 1. دالة تحميل الألعاب (لحل مشكلة الاختفاء)
 async function loadGames() {
     try {
         const response = await fetch('../games.json'); 
@@ -15,6 +15,11 @@ async function loadGames() {
         container.innerHTML = '';
         
         const filteredGames = games.filter(game => game.platform === currentPlatform);
+
+        if (filteredGames.length === 0) {
+            container.innerHTML = "<p style='grid-column: 1/-1; text-align:center;'>لا توجد ألعاب حالياً لهذه المنصة.</p>";
+            return;
+        }
 
         filteredGames.forEach(game => {
             const card = `
@@ -30,10 +35,12 @@ async function loadGames() {
             container.innerHTML += card;
         });
 
+        // تحديث العداد والقائمة فور التحميل
         updateCartCount();
         updateCartList();
+
     } catch (error) {
-        console.error("خطأ:", error);
+        console.error("خطأ فني:", error);
     }
 }
 
@@ -79,13 +86,13 @@ function updateCartList() {
                 </li>
             `).join('');
             
-            // توليد الـ QR Code تلقائياً
+            // توليد الـ QR تلقائياً
             generateQR();
         }
     }
 }
 
-// 3. دالة توليد الـ QR Code
+// 3. دالة توليد الـ QR Code (يستخدم المكتبة المضافة في الـ HTML)
 function generateQR() {
     const qrDiv = document.getElementById('qrcode');
     const qrContainer = document.getElementById('qr-container');
@@ -94,9 +101,9 @@ function generateQR() {
         qrDiv.innerHTML = ""; // مسح القديم
         qrContainer.style.display = 'block';
         
-        // نص الطلبية الذي سيظهر عند مسح الكود
-        const orderText = "طلب جديد من أهلاوي ستور:\n" + cart.map((t, i) => `${i+1}- ${t}`).join("\n");
+        const orderText = "طلب جديد من أهلاوي ستور 🦅:\n" + cart.map((t, i) => `${i+1}- ${t}`).join("\n");
         
+        // استدعاء مكتبة QRCode
         new QRCode(qrDiv, {
             text: orderText,
             width: 150,
@@ -130,4 +137,5 @@ function sendWhatsApp() {
     window.open(`https://wa.me/201021424781?text=${encodeURIComponent(message)}`);
 }
 
+// تشغيل جلب الألعاب فور تحميل الصفحة
 document.addEventListener('DOMContentLoaded', loadGames);
