@@ -1,4 +1,4 @@
-/* ============ AHLAWY STORE CSS - v2.0 ============ */
+/* ============ AHLAWY STORE CSS - v2.1 (FIXED CART SCROLL) ============ */
 :root {
   --main-red: #cc0000;
   --dark-red: #8b0000;
@@ -17,6 +17,7 @@ body {
   color: var(--text-white);
   direction: rtl;
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 /* الهيدر */
@@ -33,36 +34,37 @@ body {
   z-index: 1000;
 }
 
-/* تكبير اللوجو وضبط المسافات */
 .brand {
-    display: flex;         /* تفعيل وضع المحاذاة الجانبية */
-    align-items: center;   /* جعل اللوجو والنص على نفس الخط الأفقي */
-    gap: 15px;             /* مسافة مناسبة بين اللوجو والنص */
+    display: flex;
+    align-items: center;
+    gap: 15px;
     cursor: pointer;
 }
 
 .brand img {
-    width: 80px;           /* حجم اللوجو (يمكنك تكبيره حسب الرغبة) */
+    width: 80px;
     height: auto;
     object-fit: contain;
 }
 
 .brand-text {
     display: flex;
-    flex-direction: column; /* جعل "أهلاوي ستور" والوصف تحت بعض ولكن بجانب اللوجو */
-    text-align: right;     /* محاذاة النص لليمين */
+    flex-direction: column;
+    text-align: right;
 }
 
 .brand-text strong {
     font-size: 1.4rem;
     color: var(--main-red);
-    line-height: 1;        /* لتقليل المسافة بين السطرين */
+    line-height: 1;
 }
 
 .brand-text span {
     font-size: 0.8rem;
     color: var(--gold);
-}/* تنسيق الكروت (الأقسام والألعاب) */
+}
+
+/* تنسيق الكروت */
 .games {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
@@ -97,7 +99,6 @@ body {
   overflow: hidden;
 }
 
-/* أزرار الإضافة للسلة */
 .add-to-cart-btn {
   background: var(--main-red);
   color: white;
@@ -110,7 +111,7 @@ body {
   font-weight: bold;
 }
 
-/* السلة الجانبية */
+/* ========== السلة الجانبية المتطورة ========== */
 .cart-section {
   position: fixed;
   top: 0;
@@ -123,10 +124,85 @@ body {
   transition: 0.4s;
   padding: 20px;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column; /* ترتيب العناصر عمودياً */
 }
 
 .cart-section.open {
   left: 0;
+}
+
+/* قائمة الألعاب مع Scroll */
+#cart-list {
+    flex-grow: 1; /* تأخذ المساحة المتاحة وتترك مكاناً للأزرار تحت */
+    overflow-y: auto; /* تفعيل السكرول */
+    margin: 15px 0;
+    padding: 0;
+    list-style: none;
+}
+
+/* تحسين شكل السكرول بار */
+#cart-list::-webkit-scrollbar {
+    width: 6px;
+}
+#cart-list::-webkit-scrollbar-thumb {
+    background: var(--main-red);
+    border-radius: 10px;
+}
+
+#cart-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    border-bottom: 1px solid #222;
+    background: #1a1a1a;
+    margin-bottom: 8px;
+    border-radius: 8px;
+}
+
+/* منطقة الأزرار الثابتة في الأسفل */
+.cart-footer {
+    border-top: 1px solid #333;
+    padding-top: 15px;
+    background: #111;
+}
+
+.generate-btn {
+    width: 100%;
+    padding: 12px;
+    background: var(--main-red);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#qr-container {
+    margin-top: 10px;
+    text-align: center;
+    background: white;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+#qrcode img {
+    margin: 0 auto;
+    width: 140px;
+    height: 140px;
+}
+
+.whatsapp-btn {
+    width: 100%;
+    padding: 12px;
+    background: #25d366;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
 }
 
 .cart-trigger {
@@ -137,161 +213,17 @@ body {
   font-weight: bold;
 }
 
-/* QR Code */
-#qrcode {
-    background: white;
-    padding: 10px;
-    border-radius: 10px;
-    display: inline-block;
-    margin-top: 15px;
-}
-.container {
-    padding: 20px 5%;
-}
-
-.section-title {
-    text-align: center;
-    margin-bottom: 30px;
-}
-
 .section-title h2 {
     color: var(--gold);
     font-size: 1.8rem;
-}
-
-.loading {
-    grid-column: 1 / -1;
     text-align: center;
-    padding: 50px;
-    font-size: 1.2rem;
-    color: var(--gold);
 }
 
-/* تنسيق السلة المحسن */
-.cart-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid var(--main-red);
-    margin-bottom: 15px;
-}
-
-.close-btn {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 2rem;
-    cursor: pointer;
-}
-
-.whatsapp-btn {
-    width: 100%;
-    padding: 12px;
-    background: #25d366;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-weight: bold;
-    cursor: pointer;
-    margin-top: 15px;
-}
-/* تأثير فتح السلة */
-.cart-section.open {
-    left: 0;
-}
-
-/* تحسين شكل السلة عشان يظهر الحذف والأسماء بوضوح */
-#cart-list li {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px;
-    border-bottom: 1px solid #222;
-    background: #1a1a1a;
-    margin-bottom: 5px;
-    border-radius: 5px;
-}
-
-#cart-list li button {
-    background: #ff4d4d;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 12px;
-}
-
-/* جعل الصفحة غير قابلة للسحب يميناً ويساراً عند فتح السلة */
-body {
-    overflow-x: hidden;
-}
-/* --- تنسيق قسم الـ QR Code داخل السلة --- */
-.cart-footer {
-    padding: 15px;
-    border-top: 1px solid #333;
-    margin-top: auto; /* يجعله دائماً في أسفل السلة */
-}
-
-#qr-container {
-    margin-top: 15px;
-    text-align: center;
-    background: #ffffff; /* خلفية بيضاء لسهولة المسح بالكاميرا */
-    padding: 15px;
-    border-radius: 12px;
-    display: none; /* سيظهر فقط عند إضافة ألعاب */
-    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-}
-
-#qrcode {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-#qrcode img {
-    width: 140px; /* حجم مثالي للسلة الجانبية */
-    height: 140px;
-    border: 2px solid #fff;
-}
-
-.whatsapp-btn {
-    width: 100%;
-    background: #25d366;
-    color: white;
-    border: none;
-    padding: 12px;
-    border-radius: 8px;
-    font-weight: bold;
-    font-size: 16px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.whatsapp-btn:hover {
-    background: #1ebe57;
-}
-
-/* تحسين شكل النصوص داخل السلة */
-#qr-container p {
-    color: #000 !important;
-    font-size: 13px;
-    margin-top: 8px;
-    font-weight: bold;
-    font-family: sans-serif;
-}
-/* تنسيق الزرار لما اللعبة تكون مضافة */
-.add-to-cart-btn.already-added {
-    background-color: #444 !important; /* لون رمادي غامق */
-    color: #888 !important;
-    cursor: not-allowed;
-    border: 1px solid #555;
-}
-/* تنسيق بار البحث الجديد - ليكون عريضاً وفي المنتصف */
+/* بار البحث */
 .search-wrapper {
     width: 100%;
-    max-width: 800px; /* زيادة العرض */
-    margin: 30px auto; /* توسيط الخانة في نص الصفحة */
+    max-width: 800px;
+    margin: 30px auto;
     padding: 0 20px;
     display: flex;
     justify-content: center;
@@ -299,29 +231,18 @@ body {
 
 #game-search {
     width: 100%;
-    padding: 15px 25px; /* تكبير الحجم الداخلي */
-    border-radius: 50px; /* جعل الحواف دائرية واحترافية */
-    border: 2px solid #e61e25; /* إضافة إطار بلون أهلاوي */
+    padding: 15px 25px;
+    border-radius: 50px;
+    border: 2px solid #e61e25;
     background-color: #1a1a1a;
     color: white;
-    font-size: 18px; /* تكبير الخط */
-    font-family: 'Cairo', sans-serif;
+    font-size: 18px;
     outline: none;
-    transition: all 0.3s ease;
-    text-align: center; /* كتابة البحث في المنتصف */
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    text-align: center;
 }
 
-#game-search:focus {
-    background-color: #252525;
-    box-shadow: 0 0 20px rgba(230, 30, 37, 0.4);
-    transform: scale(1.02); /* حركة بسيطة عند الضغط للبحث */
-}
-
-/* تنسيق للبحث على الموبايل */
-@media (max-width: 600px) {
-    #game-search {
-        font-size: 16px;
-        padding: 12px 20px;
-    }
+.add-to-cart-btn.already-added {
+    background-color: #444 !important;
+    color: #888 !important;
+    cursor: not-allowed;
 }
