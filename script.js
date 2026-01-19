@@ -1,4 +1,4 @@
-/* ============ AHLAWY STORE ENGINE - v2.8 (FINAL & STABLE) ============ */
+/* ============ AHLAWY STORE ENGINE - v2.9 (STABLE & FIXED) ============ */
 
 let cart = JSON.parse(localStorage.getItem('ahlawy_cart')) || [];
 const STORE_PHONE = "201018251103";
@@ -100,7 +100,7 @@ function updateUI() {
         list.innerHTML = cart.map((item, i) => `
             <li style="display:flex; justify-content:space-between; align-items:center; padding:10px; border-bottom:1px solid #333; color:white;">
                 <span style="font-size:13px; text-align:right;">${item}</span>
-                <button onclick="removeFromCart(${i})" class="remove-btn" style="color:#ff4d4d; background:none; border:none; cursor:pointer;">حذف</button>
+                <button onclick="removeFromCart(${i})" class="remove-btn" style="color:#ff4d4d; background:none; border:none; cursor:pointer; padding: 5px;">حذف</button>
             </li>
         `).join('');
     }
@@ -135,16 +135,18 @@ function toggleCart() {
     if (cartSection) cartSection.classList.toggle('open');
 }
 
-// الدالة المطلوبة: إغلاق السلة عند الضغط بالخارج
+// التعديل هنا: منع إغلاق السلة عند الضغط على أزرار الحذف أو الإضافة أو داخل السلة نفسها
 document.addEventListener('click', (event) => {
     const cartSection = document.getElementById('cart-section');
     const cartTrigger = document.querySelector('.cart-trigger');
     
     if (cartSection && cartSection.classList.contains('open')) {
-        // إذا ضغطت خارج السلة، وخارج زر السلة، وخارج أزرار الإضافة (عشان متقفلش وأنت بتضيف)
-        if (!cartSection.contains(event.target) && 
-            !cartTrigger.contains(event.target) && 
-            !event.target.classList.contains('add-to-cart-btn')) {
+        const isClickInsideCart = cartSection.contains(event.target);
+        const isClickOnTrigger = cartTrigger.contains(event.target);
+        const isClickOnAddBtn = event.target.classList.contains('add-to-cart-btn');
+        const isClickOnRemoveBtn = event.target.classList.contains('remove-btn');
+
+        if (!isClickInsideCart && !isClickOnTrigger && !isClickOnAddBtn && !isClickOnRemoveBtn) {
             cartSection.classList.remove('open');
         }
     }
@@ -154,7 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
     loadGames();
     updateUI();
 });
-// دالة البحث والفلترة اللحظية
+
 function filterGames() {
     const searchTerm = document.getElementById('game-search').value.toLowerCase();
     const gameItems = document.querySelectorAll('.game-item');
@@ -162,9 +164,9 @@ function filterGames() {
     gameItems.forEach(item => {
         const gameTitle = item.querySelector('h3').innerText.toLowerCase();
         if (gameTitle.includes(searchTerm)) {
-            item.style.display = "block"; // إظهار اللعبة لو الاسم مطابق
+            item.style.display = "block";
         } else {
-            item.style.display = "none"; // إخفاء اللعبة لو مش مطابقة
+            item.style.display = "none";
         }
     });
 }
