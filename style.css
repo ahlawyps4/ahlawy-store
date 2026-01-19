@@ -280,3 +280,10 @@ body {
     font-weight: bold;
     font-family: sans-serif;
 }
+/* تنسيق الزرار لما اللعبة تكون مضافة */
+.add-to-cart-btn.already-added {
+    background-color: #444 !important; /* لون رمادي غامق */
+    color: #888 !important;
+    cursor: not-allowed;
+    border: 1px solid #555;
+}

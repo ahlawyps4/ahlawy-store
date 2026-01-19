@@ -1,7 +1,7 @@
-/* ============ AHLAWY STORE ENGINE - v2.6 (UPDATED PHONE) ============ */
+/* ============ AHLAWY STORE ENGINE - v2.7 (SMART BUTTONS) ============ */
 
 let cart = JSON.parse(localStorage.getItem('ahlawy_cart')) || [];
-const STORE_PHONE = "201018251103"; // رقمك الجديد تم تحديثه هنا
+const STORE_PHONE = "201018251103";
 
 async function loadGames() {
     const isSubFolder = window.location.pathname.includes('/PS4/') || window.location.pathname.includes('/PS5/');
@@ -28,6 +28,9 @@ async function loadGames() {
 
         filtered.forEach(game => {
             const imgUrl = baseAssetPath + game.img;
+            // فحص هل اللعبة في السلة فعلاً لتحديد شكل الزر عند التحميل
+            const isInCart = cart.includes(game.title);
+            
             container.innerHTML += `
                 <div class="game-item">
                     <div class="game-media">
@@ -35,7 +38,13 @@ async function loadGames() {
                     </div>
                     <div class="game-content">
                         <h3>${game.title}</h3>
-                        <button class="add-to-cart-btn" onclick="addToCart('${game.title.replace(/'/g, "\\")}')">إضافة للسلة</button>
+                        <button 
+                            id="btn-${game.title.replace(/\s+/g, '-')}" 
+                            class="add-to-cart-btn ${isInCart ? 'already-added' : ''}" 
+                            onclick="addToCart('${game.title.replace(/'/g, "\\")}')"
+                            ${isInCart ? 'disabled' : ''}>
+                            ${isInCart ? 'تمت الإضافة 🦅' : 'إضافة للسلة'}
+                        </button>
                     </div>
                 </div>`;
         });
@@ -45,18 +54,45 @@ async function loadGames() {
 }
 
 function addToCart(gameTitle) {
-    cart.push(gameTitle);
-    saveAndRefresh();
+    if (!cart.includes(gameTitle)) {
+        cart.push(gameTitle);
+        saveAndRefresh();
+        // تحديث شكل الأزرار في الصفحة فوراً
+        updateButtonsState();
+    }
 }
 
 function removeFromCart(index) {
     cart.splice(index, 1);
     saveAndRefresh();
+    // إعادة الأزرار لحالتها الطبيعية بعد الحذف
+    updateButtonsState();
 }
 
 function saveAndRefresh() {
     localStorage.setItem('ahlawy_cart', JSON.stringify(cart));
     updateUI();
+}
+
+// دالة لتحديث حالة الأزرار في الصفحة (اللون والنص)
+function updateButtonsState() {
+    const allButtons = document.querySelectorAll('.add-to-cart-btn');
+    allButtons.forEach(btn => {
+        // نستخرج اسم اللعبة من الـ onclick الخاص بالزر
+        const titleMatch = btn.getAttribute('onclick').match(/'([^']+)'/);
+        if (titleMatch) {
+            const gameTitle = titleMatch[1];
+            if (cart.includes(gameTitle)) {
+                btn.innerText = "تمت الإضافة 🦅";
+                btn.classList.add('already-added');
+                btn.disabled = true;
+            } else {
+                btn.innerText = "إضافة للسلة";
+                btn.classList.remove('already-added');
+                btn.disabled = false;
+            }
+        }
+    });
 }
 
 function updateUI() {
@@ -80,19 +116,12 @@ function updateUI() {
     }
 }
 
+// باقي الدوال (QR وتوليد الكود) كما هي
 function generateOrderQR() {
     const qrContainer = document.getElementById('qr-container');
     const qrcodeElement = document.getElementById("qrcode");
-    
-    if (cart.length === 0) {
-        alert("السلة فارغة يا بطل!");
-        return;
-    }
-
-    if (!qrcodeElement || typeof QRCode === 'undefined') {
-        alert("خطأ: مكتبة الـ QR غير محملة");
-        return;
-    }
+    if (cart.length === 0) return alert("السلة فارغة!");
+    if (!qrcodeElement || typeof QRCode === 'undefined') return alert("خطأ في المكتبة");
 
     const msg = "طلب جديد من أهلاوي ستور 🦅:\n" + cart.map((t, i) => `${i+1}- ${t}`).join("\n");
     const whatsappUrl = `https://wa.me/${STORE_PHONE}?text=${encodeURIComponent(msg)}`;
@@ -108,7 +137,6 @@ function generateOrderQR() {
         colorLight : "#ffffff",
         correctLevel : QRCode.CorrectLevel.H
     });
-    
     window.currentWhatsappUrl = whatsappUrl;
 }
 
@@ -125,20 +153,6 @@ function toggleCart() {
     const cartSection = document.getElementById('cart-section');
     if (cartSection) cartSection.classList.toggle('open');
 }
-
-document.addEventListener('click', (event) => {
-    const cartSection = document.getElementById('cart-section');
-    const cartTrigger = document.querySelector('.cart-trigger');
-    if (!cartSection || !cartTrigger) return;
-
-    if (cartSection.classList.contains('open')) {
-        if (!cartSection.contains(event.target) && 
-            !cartTrigger.contains(event.target) && 
-            !event.target.classList.contains('remove-btn')) { 
-            cartSection.classList.remove('open');
-        }
-    }
-});
 
 document.addEventListener('DOMContentLoaded', () => {
     loadGames();
