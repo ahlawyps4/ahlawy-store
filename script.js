@@ -1,6 +1,7 @@
-/* ============ AHLAWY STORE ENGINE - v2.5 (ON-DEMAND QR) ============ */
+/* ============ AHLAWY STORE ENGINE - v2.6 (UPDATED PHONE) ============ */
 
 let cart = JSON.parse(localStorage.getItem('ahlawy_cart')) || [];
+const STORE_PHONE = "201018251103"; // رقمك الجديد تم تحديثه هنا
 
 async function loadGames() {
     const isSubFolder = window.location.pathname.includes('/PS4/') || window.location.pathname.includes('/PS5/');
@@ -58,7 +59,6 @@ function saveAndRefresh() {
     updateUI();
 }
 
-// تحديث الواجهة وإخفاء الكود القديم
 function updateUI() {
     const count = document.getElementById('cart-count');
     const list = document.getElementById('cart-list');
@@ -75,13 +75,11 @@ function updateUI() {
         `).join('');
     }
 
-    // إخفاء حاوية الـ QR دائماً عند حدوث أي تغيير في السلة
     if (qrContainer) {
         qrContainer.style.display = "none";
     }
 }
 
-// الدالة الأساسية لتوليد الكود عند الضغط على الزر
 function generateOrderQR() {
     const qrContainer = document.getElementById('qr-container');
     const qrcodeElement = document.getElementById("qrcode");
@@ -97,12 +95,11 @@ function generateOrderQR() {
     }
 
     const msg = "طلب جديد من أهلاوي ستور 🦅:\n" + cart.map((t, i) => `${i+1}- ${t}`).join("\n");
-    const whatsappUrl = `https://wa.me/201018251103?text=${encodeURIComponent(msg)}`;
+    const whatsappUrl = `https://wa.me/${STORE_PHONE}?text=${encodeURIComponent(msg)}`;
 
-    qrcodeElement.innerHTML = ""; // تنظيف القديم
-    qrContainer.style.display = "block"; // إظهار القسم الأبيض
+    qrcodeElement.innerHTML = ""; 
+    qrContainer.style.display = "block"; 
 
-    // رسم الكود الجديد
     new QRCode(qrcodeElement, {
         text: whatsappUrl,
         width: 150,
@@ -112,17 +109,15 @@ function generateOrderQR() {
         correctLevel : QRCode.CorrectLevel.H
     });
     
-    // حفظ الرابط للزر المباشر
     window.currentWhatsappUrl = whatsappUrl;
 }
 
-// دالة الإرسال المباشر (الزر الصغير الأخضر)
 function sendWhatsAppDirect() {
     if (window.currentWhatsappUrl) {
         window.open(window.currentWhatsappUrl, '_blank');
     } else {
         const msg = "طلب جديد من أهلاوي ستور 🦅:\n" + cart.map((t, i) => `${i+1}- ${t}`).join("\n");
-        window.open(`https://api.whatsapp.com/send?phone=201018251103&text=${encodeURIComponent(msg)}`);
+        window.open(`https://api.whatsapp.com/send?phone=${STORE_PHONE}&text=${encodeURIComponent(msg)}`);
     }
 }
 
