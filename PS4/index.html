@@ -40,19 +40,18 @@
     <div id="cart-section" class="cart-section">
         <div class="cart-header">
             <h2>سلة الطلبات</h2>
-            <button onclick="toggleCart()" class="close-cart">×</button>
+            <button onclick="toggleCart()" class="close-btn">×</button>
         </div>
         
         <ul id="cart-list"></ul>
         
         <div class="cart-footer">
-            <button onclick="generateOrderQR()" class="whatsapp-btn">توليد كود الطلب (QR) 🦅</button>
+            <button onclick="generateOrderQR()" class="generate-btn">توليد كود الطلب (QR) 🦅</button>
             
-            <div id="qr-container" style="display: none; margin-top: 15px; text-align: center; background: white; padding: 15px; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
-                <div id="qrcode" style="display: flex; justify-content: center; align-items: center; min-height: 150px;"></div>
-                <p style="color: #000 !important; font-size: 13px; margin-top: 10px; font-weight: bold; font-family: sans-serif;">امسح الكود بالموبايل لإرسال الطلب</p>
-                
-                <button onclick="sendWhatsAppDirect()" style="margin-top:10px; background:#25d366; font-size: 12px; width: 100%; border: none; color: white; padding: 8px; border-radius: 5px; cursor: pointer; font-weight: bold;">أو إرسال مباشر للواتساب</button>
+            <div id="qr-container" style="display: none;">
+                <div id="qrcode"></div>
+                <p style="color: #000 !important; font-size: 13px; margin-top: 10px; font-weight: bold;">امسح الكود بالموبايل لإرسال الطلب</p>
+                <button onclick="sendWhatsAppDirect()" class="whatsapp-btn">إرسال مباشر للواتساب</button>
             </div>
         </div>
     </div>
