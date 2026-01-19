@@ -119,10 +119,13 @@ function generateOrderQR() {
     qrContainer.style.display = "block"; 
 
     new QRCode(qrcodeElement, {
-        text: whatsappUrl, width: 150, height: 150,
-        colorDark : "#000000", colorLight : "#ffffff",
-        correctLevel : QRCode.CorrectLevel.H
-    });
+    text: whatsappUrl, 
+    width: 250, // كبر الحجم هنا
+    height: 250, // كبر الحجم هنا
+    colorDark : "#000000",
+    colorLight : "#ffffff",
+    correctLevel : QRCode.CorrectLevel.M // تغيير المستوى لـ M لتقليل التعقيد
+});
     window.currentWhatsappUrl = whatsappUrl;
 }
 
