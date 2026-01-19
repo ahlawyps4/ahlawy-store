@@ -68,30 +68,32 @@ function updateUI() {
         list.innerHTML = cart.map((item, i) => `
             <li style="display:flex; justify-content:space-between; align-items:center; padding:10px; border-bottom:1px solid #333; color:white;">
                 <span style="font-size:13px; text-align:right;">${item}</span>
-                <button onclick="removeFromCart(${i})" style="color:#ff4d4d; background:none; border:none; cursor:pointer;">حذف</button>
+                <button onclick="removeFromCart(${i})" class="remove-btn" style="color:#ff4d4d; background:none; border:none; cursor:pointer; font-weight:bold; padding:5px;">حذف</button>
             </li>
         `).join('');
     }
 }
-
 function toggleCart() {
     const cartSection = document.getElementById('cart-section');
     if (cartSection) cartSection.classList.toggle('open');
 }
 
-// إغلاق السلة عند الضغط في أي مكان خارجها
+// إغلاق السلة عند الضغط في أي مكان خارجها (مع استثناء زر الحذف)
 document.addEventListener('click', (event) => {
     const cartSection = document.getElementById('cart-section');
     const cartTrigger = document.querySelector('.cart-trigger');
     
-    // إذا كانت السلة مفتوحة والضغط ليس داخل السلة وليس على زر السلة
-    if (cartSection.classList.contains('open') && 
-        !cartSection.contains(event.target) && 
-        !cartTrigger.contains(event.target)) {
-        cartSection.classList.remove('open');
+    // التحقق إذا كانت السلة مفتوحة
+    if (cartSection.classList.contains('open')) {
+        // لو الضغطة بره السلة وبره زرار فتح السلة وبره زرار الحذف
+        if (!cartSection.contains(event.target) && 
+            !cartTrigger.contains(event.target) && 
+            !event.target.classList.contains('remove-btn')) { 
+            
+            cartSection.classList.remove('open');
+        }
     }
 });
-
 function sendWhatsApp() {
     if (cart.length === 0) {
         alert("السلة فارغة!");
