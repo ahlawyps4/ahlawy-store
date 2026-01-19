@@ -1,7 +1,16 @@
-/* ============ AHLAWY STORE ENGINE - v3.0 (ULTRA SCAN READY) ============ */
+/* ============ AHLAWY STORE ENGINE - v3.1 (OFFLINE READY) ============ */
 
 let cart = JSON.parse(localStorage.getItem('ahlawy_cart')) || [];
 const STORE_PHONE = "201018251103";
+
+// --- كود تسجيل الـ Service Worker للعمل أوفلاين ---
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+            .then(reg => console.log('تم تفعيل نظام الأوفلاين بنجاح 🦅', reg))
+            .catch(err => console.log('فشل تفعيل نظام الأوفلاين ❌', err));
+    });
+}
 
 async function loadGames() {
     const isSubFolder = window.location.pathname.includes('/PS4/') || window.location.pathname.includes('/PS5/');
@@ -112,21 +121,19 @@ function generateOrderQR() {
     const qrcodeElement = document.getElementById("qrcode");
     if (cart.length === 0) return alert("السلة فارغة!");
     
-    // تبسيط الرسالة لتقليل كمية البيانات في الـ QR لسهولة المسح
     const msg = "Order Ahlawy Store:\n" + cart.map((t, i) => `${i+1}-${t}`).join("\n");
     const whatsappUrl = `https://wa.me/${STORE_PHONE}?text=${encodeURIComponent(msg)}`;
 
     qrcodeElement.innerHTML = ""; 
     qrContainer.style.display = "block"; 
 
-    // إعدادات الـ QR المثالية للمسح الفوري
     new QRCode(qrcodeElement, {
         text: whatsappUrl, 
         width: 250, 
         height: 250, 
         colorDark : "#000000",
         colorLight : "#ffffff",
-        correctLevel : QRCode.CorrectLevel.L // تم التغيير لـ L (الأبسط والأسرع في المسح)
+        correctLevel : QRCode.CorrectLevel.L
     });
     window.currentWhatsappUrl = whatsappUrl;
 }
@@ -140,6 +147,7 @@ function toggleCart() {
     if (cartSection) cartSection.classList.toggle('open');
 }
 
+// إغلاق السلة عند الضغط خارجها
 document.addEventListener('click', (event) => {
     const cartSection = document.getElementById('cart-section');
     const cartTrigger = document.querySelector('.cart-trigger');
@@ -156,9 +164,15 @@ document.addEventListener('click', (event) => {
     }
 });
 
+// تفعيل البحث عند الكتابة
 document.addEventListener('DOMContentLoaded', () => {
     loadGames();
     updateUI();
+
+    const searchInput = document.getElementById('game-search');
+    if (searchInput) {
+        searchInput.addEventListener('input', filterGames);
+    }
 });
 
 function filterGames() {
@@ -167,10 +181,6 @@ function filterGames() {
 
     gameItems.forEach(item => {
         const gameTitle = item.querySelector('h3').innerText.toLowerCase();
-        if (gameTitle.includes(searchTerm)) {
-            item.style.display = "block";
-        } else {
-            item.style.display = "none";
-        }
+        item.style.display = gameTitle.includes(searchTerm) ? "block" : "none";
     });
 }
