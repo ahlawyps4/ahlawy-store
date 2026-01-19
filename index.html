@@ -9,9 +9,7 @@
   <link rel="manifest" href="manifest.json">
 
   <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        // قمت بإزالة السلاش (/) قبل اسم الملف لضمان عمله في GitHub Pages وفي الكاش
+         // قمت بإزالة السلاش (/) قبل اسم الملف لضمان عمله في GitHub Pages وفي الكاش
         navigator.serviceWorker.register('service-worker.js').then(registration => {
           console.log('ServiceWorker registered: ', registration);
         }).catch(error => {
