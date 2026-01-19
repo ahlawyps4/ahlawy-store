@@ -1,0 +1,197 @@
+/* ============ AHLAWY STORE CSS - v2.0 ============ */
+:root {
+  --main-red: #cc0000;
+  --dark-red: #8b0000;
+  --gold: #d4af37;
+  --dark-bg: #0a0707;
+  --card-bg: rgba(255, 255, 255, 0.05);
+  --glass: rgba(255, 255, 255, 0.1);
+  --text-white: #eef2ff;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: radial-gradient(circle at top, #2a0b0b 0%, var(--dark-bg) 70%);
+  color: var(--text-white);
+  direction: rtl;
+  min-height: 100vh;
+}
+
+/* الهيدر */
+.store-header {
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  padding: 15px 5%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid var(--main-red);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+/* تكبير اللوجو وضبط المسافات */
+.brand {
+    display: flex;         /* تفعيل وضع المحاذاة الجانبية */
+    align-items: center;   /* جعل اللوجو والنص على نفس الخط الأفقي */
+    gap: 15px;             /* مسافة مناسبة بين اللوجو والنص */
+    cursor: pointer;
+}
+
+.brand img {
+    width: 80px;           /* حجم اللوجو (يمكنك تكبيره حسب الرغبة) */
+    height: auto;
+    object-fit: contain;
+}
+
+.brand-text {
+    display: flex;
+    flex-direction: column; /* جعل "أهلاوي ستور" والوصف تحت بعض ولكن بجانب اللوجو */
+    text-align: right;     /* محاذاة النص لليمين */
+}
+
+.brand-text strong {
+    font-size: 1.4rem;
+    color: var(--main-red);
+    line-height: 1;        /* لتقليل المسافة بين السطرين */
+}
+
+.brand-text span {
+    font-size: 0.8rem;
+    color: var(--gold);
+}/* تنسيق الكروت (الأقسام والألعاب) */
+.games {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+.game-item {
+  background: var(--card-bg);
+  border-radius: 15px;
+  overflow: hidden;
+  border: 1px solid var(--glass);
+  transition: transform 0.3s;
+  text-align: center;
+}
+
+.game-item:hover {
+  transform: scale(1.05);
+  border-color: var(--main-red);
+}
+
+.game-media img {
+  width: 100%;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+}
+
+.game-content h3 {
+  font-size: 0.9rem;
+  margin: 10px 5px;
+  height: 40px;
+  overflow: hidden;
+}
+
+/* أزرار الإضافة للسلة */
+.add-to-cart-btn {
+  background: var(--main-red);
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  width: 90%;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* السلة الجانبية */
+.cart-section {
+  position: fixed;
+  top: 0;
+  left: -100%;
+  width: 320px;
+  height: 100%;
+  background: #111;
+  box-shadow: 5px 0 20px rgba(0,0,0,0.8);
+  z-index: 2000;
+  transition: 0.4s;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.cart-section.open {
+  left: 0;
+}
+
+.cart-trigger {
+  cursor: pointer;
+  background: var(--main-red);
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-weight: bold;
+}
+
+/* QR Code */
+#qrcode {
+    background: white;
+    padding: 10px;
+    border-radius: 10px;
+    display: inline-block;
+    margin-top: 15px;
+}
+.container {
+    padding: 20px 5%;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.section-title h2 {
+    color: var(--gold);
+    font-size: 1.8rem;
+}
+
+.loading {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 50px;
+    font-size: 1.2rem;
+    color: var(--gold);
+}
+
+/* تنسيق السلة المحسن */
+.cart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--main-red);
+    margin-bottom: 15px;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+.whatsapp-btn {
+    width: 100%;
+    padding: 12px;
+    background: #25d366;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 15px;
+}

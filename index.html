@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AHLAWY STORE - الرئيسية</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* تنسيقات سريعة خاصة بالصفحة الرئيسية لجعلها جذابة */
+        .home-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 80vh;
+            gap: 30px;
+            padding: 20px;
+        }
+        .welcome-text {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .welcome-text h1 {
+            color: var(--gold);
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+        }
+        .platform-selection {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .platform-card {
+            background: var(--card-bg);
+            border: 2px solid var(--glass);
+            border-radius: 20px;
+            padding: 30px;
+            width: 280px;
+            text-align: center;
+            text-decoration: none;
+            color: white;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .platform-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--main-red);
+            background: rgba(204, 0, 0, 0.1);
+            box-shadow: 0 10px 30px rgba(204, 0, 0, 0.2);
+        }
+        .platform-card img {
+            width: 120px;
+            height: auto;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.5));
+        }
+        .platform-card h2 {
+            margin: 10px 0;
+            font-size: 1.5rem;
+        }
+        .platform-card .btn-enter {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 25px;
+            background: var(--main-red);
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body class="home-page">
+
+  <header class="store-header">
+    <div class="brand">
+        <img src="logo.png" alt="Logo">
+        
+        <div class="brand-text">
+            <strong>AHLAWY STORE</strong>
+            <span>متجر الألعاب المعتمد 🦅</span>
+        </div>
+    </div>
+</header>
+
+    <main class="home-container">
+        <div class="welcome-text">
+
+            <h1>أهلاً بك في أهلاوي ستور</h1>
+            <p>اختر نوع جهازك لاستعراض الألعاب المتاحة</p>
+        </div>
+
+        <section class="platform-selection">
+            <a href="PS4/index.html" class="platform-card">
+                <img src="ps4.png" alt="PlayStation 4 Controller">
+                <h2>GAMES PS4</h2>
+                <p>أكثر من 500 لعبة لجهاز بلايستيشن 4</p>
+                <div class="btn-enter">دخول القسم</div>
+            </a>
+
+            <a href="PS5/index.html" class="platform-card">
+                <img src="ps5.png" alt="PlayStation 5 Controller">
+                <h2>GAMES PS5</h2>
+                <p>أحدث ألعاب الجيل الجديد بلايستيشن 5</p>
+                <div class="btn-enter">دخول القسم</div>
+            </a>
+        </section>
+    </main>
+
+    <footer style="text-align: center; padding: 40px; color: #666; font-size: 0.8rem;">
+        &copy; 2026 AHLAWY STORE - جميع الحقوق محفوظة
+    </footer>
+
+</body>
+</html>
