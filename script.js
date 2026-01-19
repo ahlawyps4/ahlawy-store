@@ -154,3 +154,17 @@ document.addEventListener('DOMContentLoaded', () => {
     loadGames();
     updateUI();
 });
+// دالة البحث والفلترة اللحظية
+function filterGames() {
+    const searchTerm = document.getElementById('game-search').value.toLowerCase();
+    const gameItems = document.querySelectorAll('.game-item');
+
+    gameItems.forEach(item => {
+        const gameTitle = item.querySelector('h3').innerText.toLowerCase();
+        if (gameTitle.includes(searchTerm)) {
+            item.style.display = "block"; // إظهار اللعبة لو الاسم مطابق
+        } else {
+            item.style.display = "none"; // إخفاء اللعبة لو مش مطابقة
+        }
+    });
+}
