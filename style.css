@@ -195,3 +195,34 @@ body {
     cursor: pointer;
     margin-top: 15px;
 }
+/* تأثير فتح السلة */
+.cart-section.open {
+    left: 0;
+}
+
+/* تحسين شكل السلة عشان يظهر الحذف والأسماء بوضوح */
+#cart-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    border-bottom: 1px solid #222;
+    background: #1a1a1a;
+    margin-bottom: 5px;
+    border-radius: 5px;
+}
+
+#cart-list li button {
+    background: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+/* جعل الصفحة غير قابلة للسحب يميناً ويساراً عند فتح السلة */
+body {
+    overflow-x: hidden;
+}
