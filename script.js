@@ -1,4 +1,4 @@
-/* ============ AHLAWY STORE ENGINE - v2.7 (SMART BUTTONS) ============ */
+/* ============ AHLAWY STORE ENGINE - v2.8 (FINAL & STABLE) ============ */
 
 let cart = JSON.parse(localStorage.getItem('ahlawy_cart')) || [];
 const STORE_PHONE = "201018251103";
@@ -28,7 +28,6 @@ async function loadGames() {
 
         filtered.forEach(game => {
             const imgUrl = baseAssetPath + game.img;
-            // فحص هل اللعبة في السلة فعلاً لتحديد شكل الزر عند التحميل
             const isInCart = cart.includes(game.title);
             
             container.innerHTML += `
@@ -39,7 +38,6 @@ async function loadGames() {
                     <div class="game-content">
                         <h3>${game.title}</h3>
                         <button 
-                            id="btn-${game.title.replace(/\s+/g, '-')}" 
                             class="add-to-cart-btn ${isInCart ? 'already-added' : ''}" 
                             onclick="addToCart('${game.title.replace(/'/g, "\\")}')"
                             ${isInCart ? 'disabled' : ''}>
@@ -57,7 +55,6 @@ function addToCart(gameTitle) {
     if (!cart.includes(gameTitle)) {
         cart.push(gameTitle);
         saveAndRefresh();
-        // تحديث شكل الأزرار في الصفحة فوراً
         updateButtonsState();
     }
 }
@@ -65,7 +62,6 @@ function addToCart(gameTitle) {
 function removeFromCart(index) {
     cart.splice(index, 1);
     saveAndRefresh();
-    // إعادة الأزرار لحالتها الطبيعية بعد الحذف
     updateButtonsState();
 }
 
@@ -74,11 +70,9 @@ function saveAndRefresh() {
     updateUI();
 }
 
-// دالة لتحديث حالة الأزرار في الصفحة (اللون والنص)
 function updateButtonsState() {
     const allButtons = document.querySelectorAll('.add-to-cart-btn');
     allButtons.forEach(btn => {
-        // نستخرج اسم اللعبة من الـ onclick الخاص بالزر
         const titleMatch = btn.getAttribute('onclick').match(/'([^']+)'/);
         if (titleMatch) {
             const gameTitle = titleMatch[1];
@@ -110,19 +104,14 @@ function updateUI() {
             </li>
         `).join('');
     }
-
-    if (qrContainer) {
-        qrContainer.style.display = "none";
-    }
+    if (qrContainer) qrContainer.style.display = "none";
 }
 
-// باقي الدوال (QR وتوليد الكود) كما هي
 function generateOrderQR() {
     const qrContainer = document.getElementById('qr-container');
     const qrcodeElement = document.getElementById("qrcode");
     if (cart.length === 0) return alert("السلة فارغة!");
-    if (!qrcodeElement || typeof QRCode === 'undefined') return alert("خطأ في المكتبة");
-
+    
     const msg = "طلب جديد من أهلاوي ستور 🦅:\n" + cart.map((t, i) => `${i+1}- ${t}`).join("\n");
     const whatsappUrl = `https://wa.me/${STORE_PHONE}?text=${encodeURIComponent(msg)}`;
 
@@ -130,29 +119,36 @@ function generateOrderQR() {
     qrContainer.style.display = "block"; 
 
     new QRCode(qrcodeElement, {
-        text: whatsappUrl,
-        width: 150,
-        height: 150,
-        colorDark : "#000000",
-        colorLight : "#ffffff",
+        text: whatsappUrl, width: 150, height: 150,
+        colorDark : "#000000", colorLight : "#ffffff",
         correctLevel : QRCode.CorrectLevel.H
     });
     window.currentWhatsappUrl = whatsappUrl;
 }
 
 function sendWhatsAppDirect() {
-    if (window.currentWhatsappUrl) {
-        window.open(window.currentWhatsappUrl, '_blank');
-    } else {
-        const msg = "طلب جديد من أهلاوي ستور 🦅:\n" + cart.map((t, i) => `${i+1}- ${t}`).join("\n");
-        window.open(`https://api.whatsapp.com/send?phone=${STORE_PHONE}&text=${encodeURIComponent(msg)}`);
-    }
+    if (window.currentWhatsappUrl) window.open(window.currentWhatsappUrl, '_blank');
 }
 
 function toggleCart() {
     const cartSection = document.getElementById('cart-section');
     if (cartSection) cartSection.classList.toggle('open');
 }
+
+// الدالة المطلوبة: إغلاق السلة عند الضغط بالخارج
+document.addEventListener('click', (event) => {
+    const cartSection = document.getElementById('cart-section');
+    const cartTrigger = document.querySelector('.cart-trigger');
+    
+    if (cartSection && cartSection.classList.contains('open')) {
+        // إذا ضغطت خارج السلة، وخارج زر السلة، وخارج أزرار الإضافة (عشان متقفلش وأنت بتضيف)
+        if (!cartSection.contains(event.target) && 
+            !cartTrigger.contains(event.target) && 
+            !event.target.classList.contains('add-to-cart-btn')) {
+            cartSection.classList.remove('open');
+        }
+    }
+});
 
 document.addEventListener('DOMContentLoaded', () => {
     loadGames();
