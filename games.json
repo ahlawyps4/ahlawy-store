@@ -1,37 +1,62 @@
 [
-  {
-    "title": "Atomic Heart (ARABIC)",
-    "platform": "PS4",
-    "img": "img/PS4/Atomic Heart ARABIC.webp"
-  },
-  {
-    "title": "Back 4 Blood (ARABIC)",
-    "platform": "PS4",
-    "img": "img/PS4/Back 4 Blood ARABIC.webp"
-  },
-  {
-    "title": "BADLAND Game of the Year",
-    "platform": "PS4",
-    "img": "img/PS4/BADLAND.webp"
-  },
-  {
-    "title": "Big Rumble Boxing: Creed Champions",
-    "platform": "PS4",
-    "img": "img/PS4/Big Rumble Boxing Creed Champions.webp"
-  },
-  {
-    "title": "BlazeRush",
-    "platform": "PS4",
-    "img": "img/PS4/BlazeRush.webp"
-  },
-  {
-    "title": "Bloodborne (وليد الدم)",
-    "platform": "PS4",
-    "img": "img/PS4/Bloodborne ARABIC.webp"
-  },
-  {
-    "title": "Monkeys of Shaolin",
-    "platform": "PS4",
-    "img": "img/PS4/Monkeys of Shaolin.webp"
-  }
+    {
+        "title": "Atomic Heart (ARABIC)",
+        "platform": "PS4",
+        "img": "img/PS4/Atomic Heart ARABIC.webp"
+    },
+    {
+        "title": "Back 4 Blood (ARABIC)",
+        "platform": "PS4",
+        "img": "img/PS4/Back 4 Blood ARABIC.webp"
+    },
+    {
+        "title": "BADLAND Game of the Year",
+        "platform": "PS4",
+        "img": "img/PS4/BADLAND.webp"
+    },
+    {
+        "title": "Big Rumble Boxing: Creed Champions",
+        "platform": "PS4",
+        "img": "img/PS4/Big Rumble Boxing Creed Champions.webp"
+    },
+    {
+        "title": "BlazeRush",
+        "platform": "PS4",
+        "img": "img/PS4/BlazeRush.webp"
+    },
+    {
+        "title": "Bloodborne (وليد الدم)",
+        "platform": "PS4",
+        "img": "img/PS4/Bloodborne ARABIC.webp"
+    },
+    {
+        "title": "Monkeys of Shaolin",
+        "platform": "PS4",
+        "img": "img/PS4/Monkeys of Shaolin.webp"
+    },
+    {
+        "title": "A Plague Tale Innocence",
+        "platform": "PS4",
+        "img": "img/PS4/A Plague Tale Innocence.webp"
+    },
+    {
+        "title": "Ace Combat 7 Skies Unknown",
+        "platform": "PS4",
+        "img": "img/PS4/Ace Combat 7 Skies Unknown.webp"
+    },
+    {
+        "title": "Amnesia The Bunker",
+        "platform": "PS4",
+        "img": "img/PS4/Amnesia The Bunker.webp"
+    },
+    {
+        "title": "Amplitude",
+        "platform": "PS4",
+        "img": "img/PS4/Amplitude.webp"
+    },
+    {
+        "title": "Assault Android Cactus",
+        "platform": "PS4",
+        "img": "img/PS4/Assault Android Cactus.webp"
+    }
 ]
