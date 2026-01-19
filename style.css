@@ -226,3 +226,57 @@ body {
 body {
     overflow-x: hidden;
 }
+/* --- تنسيق قسم الـ QR Code داخل السلة --- */
+.cart-footer {
+    padding: 15px;
+    border-top: 1px solid #333;
+    margin-top: auto; /* يجعله دائماً في أسفل السلة */
+}
+
+#qr-container {
+    margin-top: 15px;
+    text-align: center;
+    background: #ffffff; /* خلفية بيضاء لسهولة المسح بالكاميرا */
+    padding: 15px;
+    border-radius: 12px;
+    display: none; /* سيظهر فقط عند إضافة ألعاب */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+#qrcode {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#qrcode img {
+    width: 140px; /* حجم مثالي للسلة الجانبية */
+    height: 140px;
+    border: 2px solid #fff;
+}
+
+.whatsapp-btn {
+    width: 100%;
+    background: #25d366;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.whatsapp-btn:hover {
+    background: #1ebe57;
+}
+
+/* تحسين شكل النصوص داخل السلة */
+#qr-container p {
+    color: #000 !important;
+    font-size: 13px;
+    margin-top: 8px;
+    font-weight: bold;
+    font-family: sans-serif;
+}

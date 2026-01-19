@@ -60,20 +60,53 @@ function saveAndRefresh() {
     updateUI();
 }
 
+// دالة تحديث السلة والـ QR تلقائياً
 function updateUI() {
     const count = document.getElementById('cart-count');
     const list = document.getElementById('cart-list');
+    const qrContainer = document.getElementById('qr-container');
+    
     if (count) count.innerText = cart.length;
+    
     if (list) {
         list.innerHTML = cart.map((item, i) => `
-            <li style="display:flex; justify-content:space-between; align-items:center; padding:10px; border-bottom:1px solid #333; color:white;">
-                <span style="font-size:13px; text-align:right;">${item}</span>
-                <button onclick="removeFromCart(${i})" class="remove-btn" style="color:#ff4d4d; background:none; border:none; cursor:pointer; font-weight:bold; padding:5px;">حذف</button>
+            <li>
+                <span>${item}</span>
+                <button onclick="removeFromCart(${i})" class="remove-btn">حذف</button>
             </li>
         `).join('');
     }
+
+    // إذا كانت السلة فارغة نخفي الـ QR، وإذا كان فيها ألعاب نجهزه
+    if (cart.length > 0) {
+        generateBasketQR();
+    } else {
+        if (qrContainer) qrContainer.style.display = "none";
+    }
 }
-function toggleCart() {
+
+// دالة توليد الـ QR داخل السلة
+function generateBasketQR() {
+    const qrContainer = document.getElementById('qr-container');
+    const qrcodeElement = document.getElementById("qrcode");
+    
+    if (!qrcodeElement) return;
+
+    const msg = "طلب جديد من أهلاوي ستور 🦅:\n" + cart.map((t, i) => `${i+1}- ${t}`).join("\n");
+    const whatsappUrl = `https://wa.me/201021424781?text=${encodeURIComponent(msg)}`;
+
+    qrcodeElement.innerHTML = ""; // تنظيف القديم
+    qrContainer.style.display = "block"; // إظهار القسم
+
+    new QRCode(qrcodeElement, {
+        text: whatsappUrl,
+        width: 150, // حجم مناسب للسلة الجانبية
+        height: 150,
+        colorDark : "#000000",
+        colorLight : "#ffffff",
+        correctLevel : QRCode.CorrectLevel.M
+    });
+}function toggleCart() {
     const cartSection = document.getElementById('cart-section');
     if (cartSection) cartSection.classList.toggle('open');
 }
