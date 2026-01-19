@@ -1,4 +1,4 @@
-/* ============ AHLAWY STORE ENGINE - v2.4 (OFFLINE & QR READY) ============ */
+/* ============ AHLAWY STORE ENGINE - v2.5 (ON-DEMAND QR) ============ */
 
 let cart = JSON.parse(localStorage.getItem('ahlawy_cart')) || [];
 
@@ -58,6 +58,7 @@ function saveAndRefresh() {
     updateUI();
 }
 
+// تحديث الواجهة وإخفاء الكود القديم
 function updateUI() {
     const count = document.getElementById('cart-count');
     const list = document.getElementById('cart-list');
@@ -74,32 +75,55 @@ function updateUI() {
         `).join('');
     }
 
-    if (cart.length > 0) {
-        if (qrContainer) qrContainer.style.display = "block";
-        // إعطاء مهلة بسيطة للمتصفح ليرسم الـ QR بشكل صحيح
-        setTimeout(generateBasketQR, 100);
-    } else {
-        if (qrContainer) qrContainer.style.display = "none";
+    // إخفاء حاوية الـ QR دائماً عند حدوث أي تغيير في السلة
+    if (qrContainer) {
+        qrContainer.style.display = "none";
     }
 }
 
-function generateBasketQR() {
+// الدالة الأساسية لتوليد الكود عند الضغط على الزر
+function generateOrderQR() {
+    const qrContainer = document.getElementById('qr-container');
     const qrcodeElement = document.getElementById("qrcode");
-    if (!qrcodeElement || typeof QRCode === 'undefined') return;
+    
+    if (cart.length === 0) {
+        alert("السلة فارغة يا بطل!");
+        return;
+    }
+
+    if (!qrcodeElement || typeof QRCode === 'undefined') {
+        alert("خطأ: مكتبة الـ QR غير محملة");
+        return;
+    }
 
     const msg = "طلب جديد من أهلاوي ستور 🦅:\n" + cart.map((t, i) => `${i+1}- ${t}`).join("\n");
     const whatsappUrl = `https://wa.me/201021424781?text=${encodeURIComponent(msg)}`;
 
-    qrcodeElement.innerHTML = ""; // تنظيف الكود القديم
+    qrcodeElement.innerHTML = ""; // تنظيف القديم
+    qrContainer.style.display = "block"; // إظهار القسم الأبيض
 
+    // رسم الكود الجديد
     new QRCode(qrcodeElement, {
         text: whatsappUrl,
         width: 150,
         height: 150,
         colorDark : "#000000",
         colorLight : "#ffffff",
-        correctLevel : QRCode.CorrectLevel.H // رفع مستوى الحماية لسهولة المسح
+        correctLevel : QRCode.CorrectLevel.H
     });
+    
+    // حفظ الرابط للزر المباشر
+    window.currentWhatsappUrl = whatsappUrl;
+}
+
+// دالة الإرسال المباشر (الزر الصغير الأخضر)
+function sendWhatsAppDirect() {
+    if (window.currentWhatsappUrl) {
+        window.open(window.currentWhatsappUrl, '_blank');
+    } else {
+        const msg = "طلب جديد من أهلاوي ستور 🦅:\n" + cart.map((t, i) => `${i+1}- ${t}`).join("\n");
+        window.open(`https://api.whatsapp.com/send?phone=201021424781&text=${encodeURIComponent(msg)}`);
+    }
 }
 
 function toggleCart() {
@@ -120,15 +144,6 @@ document.addEventListener('click', (event) => {
         }
     }
 });
-
-function sendWhatsApp() {
-    if (cart.length === 0) {
-        alert("السلة فارغة!");
-        return;
-    }
-    const msg = "طلب جديد من أهلاوي ستور 🦅:\n" + cart.map((t, i) => `${i+1}- ${t}`).join("\n");
-    window.open(`https://api.whatsapp.com/send?phone=201021424781&text=${encodeURIComponent(msg)}`);
-}
 
 document.addEventListener('DOMContentLoaded', () => {
     loadGames();
