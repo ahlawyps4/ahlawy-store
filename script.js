@@ -1,4 +1,4 @@
-/* ============ AHLAWY STORE ENGINE - v2.9 (STABLE & FIXED) ============ */
+/* ============ AHLAWY STORE ENGINE - v3.0 (ULTRA SCAN READY) ============ */
 
 let cart = JSON.parse(localStorage.getItem('ahlawy_cart')) || [];
 const STORE_PHONE = "201018251103";
@@ -112,20 +112,22 @@ function generateOrderQR() {
     const qrcodeElement = document.getElementById("qrcode");
     if (cart.length === 0) return alert("السلة فارغة!");
     
-    const msg = "طلب جديد من أهلاوي ستور 🦅:\n" + cart.map((t, i) => `${i+1}- ${t}`).join("\n");
+    // تبسيط الرسالة لتقليل كمية البيانات في الـ QR لسهولة المسح
+    const msg = "Order Ahlawy Store:\n" + cart.map((t, i) => `${i+1}-${t}`).join("\n");
     const whatsappUrl = `https://wa.me/${STORE_PHONE}?text=${encodeURIComponent(msg)}`;
 
     qrcodeElement.innerHTML = ""; 
     qrContainer.style.display = "block"; 
 
+    // إعدادات الـ QR المثالية للمسح الفوري
     new QRCode(qrcodeElement, {
-    text: whatsappUrl, 
-    width: 250, // كبر الحجم هنا
-    height: 250, // كبر الحجم هنا
-    colorDark : "#000000",
-    colorLight : "#ffffff",
-    correctLevel : QRCode.CorrectLevel.M // تغيير المستوى لـ M لتقليل التعقيد
-});
+        text: whatsappUrl, 
+        width: 250, 
+        height: 250, 
+        colorDark : "#000000",
+        colorLight : "#ffffff",
+        correctLevel : QRCode.CorrectLevel.L // تم التغيير لـ L (الأبسط والأسرع في المسح)
+    });
     window.currentWhatsappUrl = whatsappUrl;
 }
 
@@ -138,7 +140,6 @@ function toggleCart() {
     if (cartSection) cartSection.classList.toggle('open');
 }
 
-// التعديل هنا: منع إغلاق السلة عند الضغط على أزرار الحذف أو الإضافة أو داخل السلة نفسها
 document.addEventListener('click', (event) => {
     const cartSection = document.getElementById('cart-section');
     const cartTrigger = document.querySelector('.cart-trigger');
