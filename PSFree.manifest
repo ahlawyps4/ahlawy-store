@@ -1,6 +1,5 @@
 CACHE MANIFEST
-# Version: 5.0
-# Generated for Ahlawy Store
+# v2.5 - Clean Cache
 # Date: 2026-01-23
 
 CACHE:
@@ -9,18 +8,18 @@ script.js
 style.css
 games.json
 logo.png
-manifest.json
-\PS5/index.html
+qrcode.min.js
+
 
 # صور ألعاب PS4
-img/PS4/Atomic-Heart-ARABIC.jpg
-img/PS4/BADLAND.jpg
-img/PS4/Big-Rumble-Boxing-Creed-Champions.jpg
-img/PS4/BlazeRush.jpg
-img/PS4/Bloodborne-ARABIC.jpg
-img/PS4/Amnesia-The-Bunker.jpg
-img/PS4/Amplitude.jpg
-img/PS4/Assault-Android-Cactus.jpg
+img/PS4/1.jpg
+img/PS4/2.jpg
+img/PS4/3.jpg
+img/PS4/4.jpg
+img/PS4/5.jpg
+img/PS4/6.jpg
+img/PS4/7.jpg
+img/PS4/8.jpg
 
 NETWORK:
 *
