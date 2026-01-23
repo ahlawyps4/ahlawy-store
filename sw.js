@@ -1,5 +1,5 @@
 /* ============ AHLAWY STORE - SERVICE WORKER (PS4 + PROGRESS COUNTER) ============ */
-const CACHE_NAME = 'ahlawy-v5'; // رفعنا الإصدار للتحديث الجديد
+const CACHE_NAME = 'ahlawy-v6'; // رفعنا الإصدار للتحديث الجديد
 
 const assets = [
   './',
