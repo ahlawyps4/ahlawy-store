@@ -1,54 +1,49 @@
-/* ============ AHLAWY STORE ENGINE - v4.0 (OFFLINE + PROGRESS BAR) ============ */
+/* ============ AHLAWY STORE ENGINE - v4.5 (PS4 ULTIMATE COMPATIBLE) ============ */
 
 let cart = JSON.parse(localStorage.getItem('ahlawy_cart')) || [];
 const STORE_PHONE = "201018251103";
 
-// تسجيل الـ Service Worker بطريقة تناسب GitHub Pages ومتصفح PS4
+// 1. تسجيل الـ Service Worker مع معالجة نطاق GitHub Pages والـ PS4
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-        // تحديد المسار سواء كنت على السيرفر الرئيسي أو GitHub Pages
-        const swUrl = window.location.pathname.includes('Ahlawy-Store') 
-                      ? '/Ahlawy-Store/sw.js' 
-                      : './sw.js';
+        const isGitHub = window.location.hostname.includes('github.io');
+        const swUrl = isGitHub ? '/Ahlawy-Store/sw.js' : './sw.js';
+        const scope = isGitHub ? '/Ahlawy-Store/' : './';
 
-        navigator.serviceWorker.register(swUrl, { scope: window.location.pathname.includes('Ahlawy-Store') ? '/Ahlawy-Store/' : './' })
+        navigator.serviceWorker.register(swUrl, { scope: scope })
             .then(reg => {
                 console.log('تم التسجيل بنجاح في النطاق:', reg.scope);
                 
-                // استقبال النسبة المئوية للعداد
                 navigator.serviceWorker.addEventListener('message', event => {
                     if (event.data.type === 'CACHE_PROGRESS') {
                         updateProgressBar(event.data.progress);
                     }
                 });
             })
-            .catch(err => {
-                console.error('فشل التسجيل: ', err);
-            });
+            .catch(err => console.error('فشل تسجيل الكاش:', err));
     });
 }
-// دالة تحديث شريط التحميل في الواجهة
-function updateProgressBar(progress) {
-    const progressBarContainer = document.getElementById('cache-progress-container');
-    const progressBarFill = document.getElementById('progress-bar-fill');
-    const percentVal = document.getElementById('percent-val');
-    const statusMsg = document.getElementById('status-msg');
 
-    if (progressBarContainer && progressBarFill && percentVal) {
-        progressBarContainer.style.display = 'block'; // إظهار العداد
-        progressBarFill.style.width = progress + '%';
-        percentVal.innerText = progress;
+// 2. دالة تحديث شريط التحميل
+function updateProgressBar(progress) {
+    const container = document.getElementById('cache-progress-container');
+    const fill = document.getElementById('progress-bar-fill');
+    const percent = document.getElementById('percent-val');
+    const status = document.getElementById('status-msg');
+
+    if (container && fill && percent) {
+        container.style.display = 'block';
+        fill.style.width = progress + '%';
+        percent.innerText = progress;
 
         if (progress === 100) {
-            statusMsg.innerHTML = "✅ تم حفظ المتجر! يمكنك الآن التصفح بدون إنترنت.";
-            // إخفاء العداد بعد ثانيتين من الاكتمال
-            setTimeout(() => {
-                progressBarContainer.style.display = 'none';
-            }, 3000);
+            status.innerHTML = "✅ المتجر جاهز الآن للعمل بدون إنترنت (أوفلاين)";
+            setTimeout(() => { container.style.display = 'none'; }, 5000);
         }
     }
 }
 
+// 3. تحميل الألعاب مع معالجة ذكية للصور (حل مشكلة WebP للـ PS4)
 async function loadGames() {
     const isSubFolder = window.location.pathname.includes('/PS4/') || window.location.pathname.includes('/PS5/');
     const jsonPath = isSubFolder ? '../games.json' : './games.json';
@@ -56,7 +51,7 @@ async function loadGames() {
 
     try {
         const response = await fetch(jsonPath);
-        if (!response.ok) throw new Error("بيانات الألعاب غير موجودة");
+        if (!response.ok) throw new Error("فشل تحميل البيانات");
         
         const games = await response.json();
         const container = document.getElementById('games-container');
@@ -67,19 +62,18 @@ async function loadGames() {
 
         const filtered = games.filter(g => g.platform === platform);
 
-        if (filtered.length === 0) {
-            container.innerHTML = "<p style='grid-column: 1/-1; text-align:center;'>قريباً.. أحدث الألعاب</p>";
-            return;
-        }
-
         filtered.forEach(game => {
-            const imgUrl = baseAssetPath + game.img;
+            // حل سحري للـ PS4: تحويل امتداد webp إلى jpg تلقائياً في الطلب
+            const imgPath = game.img.replace('.webp', '.jpg');
+            const finalImgUrl = baseAssetPath + imgPath;
             const isInCart = cart.includes(game.title);
             
             container.innerHTML += `
                 <div class="game-item">
                     <div class="game-media">
-                        <img src="${imgUrl}" alt="${game.title}" onerror="this.src='${baseAssetPath}logo.png'">
+                        <img src="${finalImgUrl}" 
+                             alt="${game.title}" 
+                             onerror="this.onerror=null; this.src='${baseAssetPath}logo.png';">
                     </div>
                     <div class="game-content">
                         <h3>${game.title}</h3>
@@ -93,12 +87,11 @@ async function loadGames() {
                 </div>`;
         });
     } catch (err) {
-        console.error("Fetch Error:", err);
+        console.error("خطأ في تحميل الألعاب:", err);
     }
 }
 
-// --- باقي الدوال (addToCart, updateUI, إلخ) تبقى كما هي دون تغيير لضمان استقرار السلة ---
-
+// --- باقي الدوال (Saves, Cart, UI) ---
 function addToCart(gameTitle) {
     if (!cart.includes(gameTitle)) {
         cart.push(gameTitle);
@@ -148,7 +141,7 @@ function updateUI() {
         list.innerHTML = cart.map((item, i) => `
             <li style="display:flex; justify-content:space-between; align-items:center; padding:10px; border-bottom:1px solid #333; color:white;">
                 <span style="font-size:13px; text-align:right;">${item}</span>
-                <button onclick="removeFromCart(${i})" class="remove-btn" style="color:#ff4d4d; background:none; border:none; cursor:pointer; padding: 5px;">حذف</button>
+                <button onclick="removeFromCart(${i})" class="remove-btn" style="color:#ff4d4d; background:none; border:none;">حذف</button>
             </li>
         `).join('');
     }
@@ -167,11 +160,8 @@ function generateOrderQR() {
     qrContainer.style.display = "block"; 
 
     new QRCode(qrcodeElement, {
-        text: whatsappUrl, 
-        width: 250, 
-        height: 250, 
-        colorDark : "#000000",
-        colorLight : "#ffffff",
+        text: whatsappUrl, width: 250, height: 250,
+        colorDark : "#000000", colorLight : "#ffffff",
         correctLevel : QRCode.CorrectLevel.L
     });
     window.currentWhatsappUrl = whatsappUrl;
@@ -186,40 +176,18 @@ function toggleCart() {
     if (cartSection) cartSection.classList.toggle('open');
 }
 
-document.addEventListener('click', (event) => {
-    const cartSection = document.getElementById('cart-section');
-    const cartTrigger = document.querySelector('.cart-trigger');
-    
-    if (cartSection && cartSection.classList.contains('open')) {
-        const isClickInsideCart = cartSection.contains(event.target);
-        const isClickOnTrigger = (cartTrigger && cartTrigger.contains(event.target));
-        const isClickOnAddBtn = event.target.classList.contains('add-to-cart-btn');
-        const isClickOnRemoveBtn = event.target.classList.contains('remove-btn');
-
-        if (!isClickInsideCart && !isClickOnTrigger && !isClickOnAddBtn && !isClickOnRemoveBtn) {
-            cartSection.classList.remove('open');
-        }
-    }
-});
-
 document.addEventListener('DOMContentLoaded', () => {
     loadGames();
     updateUI();
-
     const searchInput = document.getElementById('game-search');
-    if (searchInput) {
-        searchInput.addEventListener('input', filterGames);
-    }
+    if (searchInput) searchInput.addEventListener('input', filterGames);
 });
 
 function filterGames() {
-    const searchInput = document.getElementById('game-search');
-    if(!searchInput) return;
-    const searchTerm = searchInput.value.toLowerCase();
+    const searchTerm = document.getElementById('game-search').value.toLowerCase();
     const gameItems = document.querySelectorAll('.game-item');
-
     gameItems.forEach(item => {
-        const gameTitle = item.querySelector('h3').innerText.toLowerCase();
-        item.style.display = gameTitle.includes(searchTerm) ? "block" : "none";
+        const title = item.querySelector('h3').innerText.toLowerCase();
+        item.style.display = title.includes(searchTerm) ? "block" : "none";
     });
 }
