@@ -1,4 +1,4 @@
-/* ============ AHLAWY STORE FINAL FIX - v9.0 ============ */
+/* ============ AHLAWY STORE FINAL FIX - v10.0 ============ */
 :root {
   --main-red: #ff0000;
   --dark-bg: #0a0707;
@@ -47,27 +47,55 @@ body {
     font-weight: bold; cursor: pointer;
 }
 
-/* --- شبكة الـ 8 أعمدة --- */
+/* --- تعديل المسافات لتقليل الفراغات (The Glue Fix) --- */
 .games {
   display: grid !important;
   grid-template-columns: repeat(8, 1fr) !important;
-  gap: 5px !important; padding: 10px !important;
+  gap: 3px !important; /* تقليل المسافة جداً بين المربعات */
+  padding: 10px !important;
+  max-width: 1400px; /* يمنع تباعد المربعات في الشاشات العريضة */
+  margin: 0 auto;
 }
+
 .game-item {
-  background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 6px; overflow: hidden; text-align: center;
-  height: 250px !important; display: flex; flex-direction: column;
+  background: rgba(255, 255, 255, 0.05); 
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px; overflow: hidden; text-align: center;
+  height: 230px !important; /* تقليل الارتفاع لمنع السحب */
+  display: flex; flex-direction: column;
 }
-.game-media img { width: 100% !important; height: 140px !important; object-fit: cover !important; }
-.game-content h3 { font-size: 9px !important; height: 22px; margin: 4px 2px; overflow: hidden; line-height: 1.1; }
+
+.game-media img { 
+  width: 100% !important; 
+  height: 145px !important; /* الارتفاع المثالي للصورة */
+  object-fit: cover !important; 
+}
+
+.game-content {
+  padding: 2px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.game-content h3 { 
+  font-size: 9px !important; 
+  height: 20px; 
+  margin: 2px 0; 
+  overflow: hidden; 
+  line-height: 1.1; 
+}
+
 .add-to-cart-btn {
   background: var(--main-red) !important; color: #fff; border: none;
-  font-size: 9px !important; padding: 4px 0 !important; width: 90%;
-  margin: 0 auto 5px auto; cursor: pointer; font-weight: bold; border-radius: 4px;
+  font-size: 9px !important; padding: 5px 0 !important; width: 95%;
+  margin: 0 auto 3px auto; cursor: pointer; font-weight: bold; border-radius: 3px;
 }
+
 .add-to-cart-btn.already-added { background: #333 !important; color: #888 !important; }
 
-/* --- السلة الجانبية (ضروري جداً) --- */
+/* --- السلة الجانبية --- */
 .cart-section {
     position: fixed; top: 0; left: -100%; width: 320px; height: 100%;
     background: #000; border-right: 2px solid var(--main-red);
@@ -79,5 +107,4 @@ body {
 .cart-footer { margin-top: 20px; }
 .generate-btn { background: var(--gold); color: #000; border: none; width: 100%; padding: 12px; font-weight: bold; cursor: pointer; border-radius: 5px; }
 #qr-container { background: white; margin-top: 15px; padding: 10px; display: none; border-radius: 8px; }
-#qrcode canvas, #qrcode img { margin: 0 auto; }
 .whatsapp-btn { background: #25d366; color: white; border: none; width: 100%; padding: 10px; margin-top: 10px; font-weight: bold; border-radius: 5px; }
