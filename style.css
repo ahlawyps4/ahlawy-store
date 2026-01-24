@@ -1,4 +1,4 @@
-/* ============ AHLAWY STORE CSS - v4.1 (FIXED & FULL) ============ */
+/* ============ AHLAWY STORE CSS - v5.0 (8-COLUMNS OPTIMIZED) ============ */
 :root {
   --main-red: #cc0000;
   --dark-red: #8b0000;
@@ -20,47 +20,27 @@ body {
   overflow-x: hidden;
 }
 
-/* ========== شريط تحميل المتجر (الإضافة الجديدة التي كانت تسبب خلل) ========== */
+/* ========== شريط تحميل المتجر (Floating Progress) ========== */
 #cache-progress-container {
     display: none; 
     position: fixed;
-    top: 70px; /* مكان استراتيجي لا يغطي الهيدر */
+    top: 80px;
     left: 50%;
     transform: translateX(-50%);
-    width: 90%;
-    max-width: 400px;
+    width: 300px;
     background: rgba(0, 0, 0, 0.95);
-    padding: 12px;
-    border-radius: 12px;
+    padding: 10px;
+    border-radius: 10px;
     border: 1px solid var(--main-red);
-    box-shadow: 0 5px 20px rgba(204, 0, 0, 0.5);
-    z-index: 3000;
+    z-index: 5000;
     text-align: center;
 }
-
-.progress-bar-bg {
-    width: 100%;
-    height: 8px;
-    background: #222;
-    border-radius: 10px;
-    overflow: hidden;
-    margin-top: 8px;
-}
-
-#progress-bar-fill {
-    width: 0%;
-    height: 100%;
-    background: linear-gradient(90deg, var(--dark-red), var(--main-red));
-    transition: width 0.3s ease;
-}
-
-#status-msg { font-size: 12px; font-weight: bold; color: #fff; }
 
 /* ========== الهيدر (Header) ========== */
 .store-header {
     background: rgba(0, 0, 0, 0.95);
     backdrop-filter: blur(15px);
-    padding: 10px 3%;
+    padding: 5px 2%;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -68,106 +48,85 @@ body {
     position: sticky;
     top: 0;
     z-index: 2000;
-    gap: 10px;
 }
 
-.brand { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
-.brand img { width: 45px; height: auto; }
-.brand-text strong { font-size: 1rem; color: var(--main-red); display: block; }
-.brand-text span { font-size: 0.65rem; color: var(--gold); }
+.brand img { width: 35px; height: auto; }
+.brand-text strong { font-size: 0.9rem; color: var(--main-red); }
 
-.header-search { flex: 1; max-width: 400px; }
 #game-search {
-    width: 100%;
-    padding: 8px 15px;
+    padding: 6px 15px;
     border-radius: 20px;
     border: 1px solid #333;
     background: #151515;
     color: white;
-    outline: none;
-}
-
-.cart-trigger {
-    background: var(--main-red);
-    padding: 8px 12px;
-    border-radius: 8px;
-    font-weight: bold;
     font-size: 13px;
-    cursor: pointer;
 }
 
-/* ========== شبكة الألعاب (Games Grid) ========== */
-.container { padding: 20px 10px; }
-.section-title h2 { color: var(--gold); text-align: center; margin-bottom: 20px; }
+/* ========== شبكة الألعاب (الـ 8 ألعاب هنا) ========== */
+.container { padding: 10px; }
 
 .games {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: 15px;
+  /* إجبار المتصفح على 8 أعمدة متساوية */
+  grid-template-columns: repeat(8, 1fr); 
+  gap: 8px; /* مسافة صغيرة جداً لتقليل الزحام */
+  width: 100%;
 }
 
 .game-item {
   background: var(--card-bg);
-  border-radius: 12px;
+  border-radius: 6px;
   border: 1px solid var(--glass);
-  transition: 0.3s;
   text-align: center;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
-.game-item:hover { transform: translateY(-5px); border-color: var(--main-red); }
-.game-media img { width: 100%; aspect-ratio: 1/1; object-fit: cover; }
+.game-media img {
+  width: 100%;
+  aspect-ratio: 1/1; /* صورة مربعة تماماً */
+  object-fit: cover;
+}
 
-.game-content h3 { font-size: 0.85rem; margin: 10px 5px; height: 35px; overflow: hidden; }
+.game-content h3 {
+  font-size: 0.65rem; /* خط صغير ليناسب العرض الضيق */
+  margin: 4px 2px;
+  height: 28px; /* ارتفاع ثابت لسطرين */
+  line-height: 1.1;
+  overflow: hidden;
+  color: #fff;
+}
 
 .add-to-cart-btn {
   background: var(--main-red);
   color: white;
   border: none;
-  padding: 8px;
+  padding: 4px;
   width: 90%;
-  margin-bottom: 10px;
-  border-radius: 5px;
+  margin: 0 auto 6px auto;
+  border-radius: 3px;
+  font-size: 0.6rem; /* تصغير الزرار لعدم الخروج من الكارت */
   font-weight: bold;
   cursor: pointer;
 }
 
 .add-to-cart-btn.already-added {
-    background: #333 !important;
-    color: #888 !important;
-    cursor: not-allowed;
+    background: #222 !important;
+    color: #555 !important;
 }
 
-/* ========== السلة الجانبية (Cart) ========== */
+/* ========== السلة (Cart) ========== */
 .cart-section {
   position: fixed;
   top: 0;
   left: -100%;
-  width: 300px;
+  width: 280px;
   height: 100%;
-  background: #0f0f0f;
+  background: #0d0d0d;
   z-index: 4000;
-  transition: 0.4s;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
+  transition: 0.3s;
+  padding: 15px;
 }
 
 .cart-section.open { left: 0; }
-#cart-list { flex-grow: 1; overflow-y: auto; list-style: none; padding: 0; }
-
-.cart-footer { border-top: 1px solid #333; padding-top: 15px; display: flex; flex-direction: column; gap: 10px; }
-
-#qr-container {
-    background: white;
-    padding: 10px;
-    border-radius: 10px;
-    display: none;
-    flex-direction: column;
-    align-items: center;
-}
-
-#qrcode img { max-width: 140px; }
-
-.generate-btn { background: var(--main-red); color: white; padding: 12px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; }
-.whatsapp-btn { background: #25d366; color: white; padding: 12px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; }
