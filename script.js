@@ -1,4 +1,4 @@
-/* ============ AHLAWY STORE ENGINE - v6.2 (PERFORMANCE OPTIMIZED) ============ */
+/* ============ AHLAWY STORE ENGINE - v7.0 ============ */
 
 let cart = JSON.parse(localStorage.getItem('ahlawy_cart')) || [];
 const STORE_PHONE = "201018251103";
