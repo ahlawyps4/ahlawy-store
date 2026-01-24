@@ -1,36 +1,54 @@
-/* ============ AHLAWY STORE FINAL RECOVERY ============ */
+/* ============ AHLAWY STORE FINAL RECOVERY - v8.0 ============ */
 :root {
   --main-red: #ff0000;
   --dark-bg: #0a0707;
   --text-white: #ffffff;
+  --gold: #d4af37;
 }
 
 body {
   margin: 0; padding: 0;
-  /* الخلفية المتدرجة زي الصورة والفيديو بالضبط */
   background: radial-gradient(circle at top, #4b0000 0%, #0a0707 80%) no-repeat fixed;
   color: var(--text-white); direction: rtl;
   font-family: sans-serif;
+  overflow-x: hidden;
 }
 
+/* ضبط الهيدر واللوجو لمنع تداخل العناصر */
 .store-header {
-    background: rgba(0, 0, 0, 0.9);
-    padding: 10px 2%;
+    background: rgba(0, 0, 0, 0.95);
+    padding: 5px 2%;
     display: flex; justify-content: space-between; align-items: center;
     border-bottom: 2px solid var(--main-red);
+    height: 65px; position: sticky; top: 0; z-index: 2000;
 }
 
+.brand {
+    display: flex; align-items: center; gap: 12px; cursor: pointer;
+}
+
+/* مقاس اللوجو المظبوط */
+.brand img {
+    width: 48px; height: 48px;
+    object-fit: contain;
+    border: 1px solid var(--main-red);
+    border-radius: 50%; padding: 2px;
+}
+
+.brand-text strong { font-size: 16px; display: block; color: #fff; }
+.brand-text span { font-size: 11px; color: var(--gold); }
+
 #game-search {
-    padding: 8px 15px; border-radius: 20px; border: 1px solid #444;
-    background: #111; color: #fff; width: 250px;
+    padding: 8px 20px; border-radius: 20px; border: 1px solid #444;
+    background: #111; color: #fff; width: 300px; outline: none;
 }
 
 .cart-trigger {
-    background: var(--main-red); padding: 8px 15px; border-radius: 5px;
-    font-weight: bold; cursor: pointer;
+    background: var(--main-red); padding: 8px 18px; border-radius: 5px;
+    font-weight: bold; cursor: pointer; transition: 0.3s;
 }
 
-/* ضبط الـ 8 ألعاب بجانب بعض */
+/* شبكة الـ 8 ألعاب - الضبط الذهبي */
 .games {
   display: grid !important;
   grid-template-columns: repeat(8, 1fr) !important;
@@ -40,33 +58,35 @@ body {
 .game-item {
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px; overflow: hidden;
-  text-align: center; height: 310px; /* ارتفاع ثابت لضبط المحاذة */
+  border-radius: 10px; overflow: hidden;
+  text-align: center; height: 320px; 
+  display: flex; flex-direction: column;
 }
 
 .game-media img {
-  width: 100%; aspect-ratio: 10/14;
+  width: 100%; height: 190px;
   object-fit: cover; border-bottom: 1px solid #222;
 }
 
+.game-content { padding: 5px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
+
 .game-content h3 {
-  font-size: 11px; height: 34px; margin: 8px 5px;
-  overflow: hidden; line-height: 1.2;
+  font-size: 11px; height: 32px; margin: 5px 0;
+  overflow: hidden; line-height: 1.2; font-weight: normal;
 }
 
-/* الأزرار الحمراء الصريحة زي الصورة */
+/* الأزرار كما في الصورة */
 .add-to-cart-btn {
   background: var(--main-red) !important;
   color: #fff !important; border: none;
-  padding: 10px; width: 90%;
-  border-radius: 5px; font-size: 11px;
-  font-weight: bold; cursor: pointer;
-  margin-bottom: 10px;
+  padding: 8px; width: 95%; align-self: center;
+  border-radius: 4px; font-size: 11px;
+  font-weight: bold; cursor: pointer; margin-bottom: 8px;
 }
 
-.add-to-cart-btn.already-added { background: #333 !important; color: #888 !important; }
+.add-to-cart-btn.already-added { background: #333 !important; color: #888 !important; cursor: not-allowed; }
 
-/* السلة الجانبية */
+/* السلة */
 .cart-section {
   position: fixed; top: 0; left: -100%;
   width: 320px; height: 100%; background: #000;
