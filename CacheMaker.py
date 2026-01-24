@@ -9,7 +9,7 @@ EXCLUDED_EXTENSIONS = {
     '.mp3', '.sh', '.h', '.c', '.o', '.ld', '.d', '.dockerignore'
 }
 EXCLUDED_FILES = {'.gitignore', 'COPYING', 'LICENSE', 'MAKEFILE', 'Makefile', 'README.md', 'dockerfile', '.gitinclude'}
-OUTPUT_FILE = 'PSFree.manifest'
+OUTPUT_FILE = 'PSFree_v2.manifest'
 
 def create_manifest():
     root_dir = os.path.dirname(os.path.abspath(__file__))
