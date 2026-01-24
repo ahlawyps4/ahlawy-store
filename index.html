@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl" manifest="PSFree.manifest?v=2"><head>
+<html lang="ar" dir="rtl" manifest="PSFree.manifest?v=2.6">
+<head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=1280"> 
     <title>AHLAWY STORE - الرئيسية</title>
     
     <link rel="manifest" href="manifest.json">
-    
     <meta name="theme-color" content="#cc0000">
     
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -13,111 +13,78 @@
     <meta name="apple-mobile-web-app-title" content="أهلاوي ستور">
     <link rel="apple-touch-icon" href="logo.png">
 
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=13.0">
     <style>
         /* تنسيق شريط تحميل الكاش المخصص لأهلاوي ستور */
         #cache-progress-container {
-            display: none; /* سيتم تظهيره بواسطة script.js فقط عند التحميل */
-            background: #111;
+            display: none; 
+            background: #000;
             color: #fff;
-            padding: 15px;
+            padding: 20px;
             text-align: center;
-            border-bottom: 2px solid #cc0000;
-            position: sticky;
+            border-bottom: 3px solid #ff0000;
+            position: fixed;
             top: 0;
+            left: 0;
+            width: 100%;
             z-index: 10000;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.8);
         }
         .progress-track {
-            width: 90%;
-            max-width: 500px;
-            height: 10px;
-            background: #333;
+            width: 80%;
+            max-width: 600px;
+            height: 12px;
+            background: #222;
             border-radius: 20px;
-            margin: 10px auto;
+            margin: 15px auto;
             overflow: hidden;
+            border: 1px solid #444;
         }
         #progress-bar-fill {
             width: 0%;
             height: 100%;
-            background: linear-gradient(90deg, #ff0000, #b30000);
-            transition: width 0.4s ease;
+            background: linear-gradient(90deg, #ff0000, #990000);
+            box-shadow: 0 0 10px #ff0000;
+            transition: width 0.3s ease-out;
         }
-        #percent-val { font-weight: bold; color: #ff4d4d; }
+        #percent-val { font-weight: bold; color: #ff0000; font-size: 1.2rem; }
+        #status-msg { font-size: 1.1rem; letter-spacing: 1px; }
 
-        /* التنسيقات الأصلية للموقع */
+        /* تعديلات الصفحة الرئيسية */
         .home-container {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 80vh;
-            gap: 30px;
+            min-height: 85vh;
+            gap: 40px;
             padding: 20px;
         }
-        .welcome-text {
-            text-align: center;
-            margin-bottom: 20px;
-        }
         .welcome-text h1 {
-            color: var(--gold);
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            text-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
-        }
-        .platform-selection {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-            justify-content: center;
+            color: #d4af37; /* Gold */
+            font-size: 3rem;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
         }
         .platform-card {
-            background: var(--card-bg);
-            border: 2px solid var(--glass);
-            border-radius: 20px;
-            padding: 30px;
-            width: 280px;
-            text-align: center;
-            text-decoration: none;
-            color: white;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
+            background: rgba(20, 20, 20, 0.8);
+            border: 1px solid #333;
+            border-radius: 15px;
+            transition: 0.4s;
         }
         .platform-card:hover {
-            transform: translateY(-10px);
-            border-color: var(--main-red);
-            background: rgba(204, 0, 0, 0.1);
-            box-shadow: 0 10px 30px rgba(204, 0, 0, 0.2);
-        }
-        .platform-card img {
-            width: 120px;
-            height: auto;
-            margin-bottom: 20px;
-            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.5));
-        }
-        .platform-card h2 {
-            margin: 10px 0;
-            font-size: 1.5rem;
-        }
-        .platform-card .btn-enter {
-            display: inline-block;
-            margin-top: 15px;
-            padding: 10px 25px;
-            background: var(--main-red);
-            border-radius: 50px;
-            font-weight: bold;
-            font-size: 0.9rem;
+            border-color: #ff0000;
+            transform: scale(1.05);
         }
     </style>
 </head>
 <body class="home-page">
 
     <div id="cache-progress-container">
-        <div id="status-msg">جاري حفظ المتجر للعمل أوفلاين... <span id="percent-val">0</span>%</div>
+        <div id="status-msg">🦅 جاري حفظ ملفات متجر أهلاوي: <span id="percent-val">0</span>%</div>
         <div class="progress-track">
             <div id="progress-bar-fill"></div>
         </div>
+        <small style="color: #888;">برجاء الانتظار حتى اكتمال التحميل لضمان العمل بدون إنترنت</small>
     </div>
 
     <header class="store-header">
@@ -133,31 +100,31 @@
     <main class="home-container">
         <div class="welcome-text">
             <h1>أهلاً بك في أهلاوي ستور</h1>
-            <p>اختر نوع جهازك لاستعراض الألعاب المتاحة</p>
+            <p style="font-size: 1.2rem; color: #ccc;">أكبر مكتبة ألعاب PS4 & PS5 في مصر</p>
         </div>
 
         <section class="platform-selection">
             <a href="PS4/index.html" class="platform-card">
-                <img src="ps4.png" alt="PlayStation 4 Controller">
+                <img src="ps4.png" alt="PS4">
                 <h2>GAMES PS4</h2>
-                <p>أكثر من 500 لعبة لجهاز بلايستيشن 4</p>
+                <p>أكثر من 476 لعبة جاهزة</p>
                 <div class="btn-enter">دخول القسم</div>
             </a>
 
             <a href="PS5/index.html" class="platform-card">
-                <img src="ps5.png" alt="PlayStation 5 Controller">
+                <img src="ps5.png" alt="PS5">
                 <h2>GAMES PS5</h2>
-                <p>أحدث ألعاب الجيل الجديد بلايستيشن 5</p>
+                <p>أحدث إصدارات الجيل الجديد</p>
                 <div class="btn-enter">دخول القسم</div>
             </a>
         </section>
     </main>
 
-    <footer style="text-align: center; padding: 40px; color: #666; font-size: 0.8rem;">
-        &copy; 2026 AHLAWY STORE - جميع الحقوق محفوظة
+    <footer style="text-align: center; padding: 40px; color: #444; font-size: 0.9rem; border-top: 1px solid #222;">
+        &copy; 2026 AHLAWY STORE - صُنع بحب لعشاق الألعاب 🦅
     </footer>
 
-    <script src="script.js"></script>
+    <script src="script.js?v=8.0"></script>
 
 </body>
 </html>
